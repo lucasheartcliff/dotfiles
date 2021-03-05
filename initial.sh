@@ -15,9 +15,15 @@ apt install git
 apt install curl
 apt install wget
 apt install nodejs
-apt install yarn
 apt install npm
 apt install zsh
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+apt update
+
+apt install yarn
 
 apt install default-jre
 apt install openjdk-11-jre-headless
