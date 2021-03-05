@@ -13,18 +13,37 @@ cat ./terminator-config >> $HOME/.config/terminator/config
 
 apt install git
 apt install curl
+apt install wget
 apt install nodejs
 apt install yarn
 apt install npm
 apt install zsh
+
 apt install default-jre
 apt install openjdk-11-jre-headless
 apt install openjdk-8-jre-headless
+
 apt install -y python3-pip
+add-apt-repository universe
+apt install python2
+python3 get-pip.py
 apt install -y build-essential libssl-dev libffi-dev python3-dev
+apt-get install make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
 apt install -y python3-venv
 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+apt install postgresql postgresql-contrib
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+echo 'pyenv virtualenvwrapper' >> ~/.bashrc
+
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh 
 
 source ~/.profile  
 
