@@ -5,6 +5,9 @@ add-apt-repository ppa:gnome-terminator
 
 apt update
 
+apt install code
+snap install intellij-idea-community --classic
+
 apt-get install terminator
 update-alternatives --config x-terminal-emulator
 
