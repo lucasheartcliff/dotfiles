@@ -7,6 +7,7 @@ apt update
 
 apt install code
 snap install intellij-idea-community --classic
+snap install pycharm-community --classic
 
 apt-get install terminator
 update-alternatives --config x-terminal-emulator
