@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# Should run with sudo 
+# Should run with sudo
 add-apt-repository ppa:gnome-terminator
+add-apt-repository universe
 
 apt update
 
@@ -21,19 +22,18 @@ apt install nodejs
 apt install npm
 apt install zsh
 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 apt update
 
 apt install yarn
 
-apt install default-jre
-apt install openjdk-11-jre-headless
-apt install openjdk-8-jre-headless
+apt install default-jdk
+apt install openjdk-11-jdk
+apt install openjdk-8-jdk
 
 apt install -y python3-pip
-add-apt-repository universe
 apt install python2
 python3 get-pip.py
 apt install -y build-essential libssl-dev libffi-dev python3-dev
@@ -43,7 +43,7 @@ apt install -y python3-venv
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 
-wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
 apt install postgresql postgresql-contrib
 
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
@@ -87,3 +87,13 @@ apt install fonts-firacode
 # Changing default shell script
 
 chsh -s $(which zsh)
+
+apt install apt-transport-https
+
+curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|tee /etc/apt/sources.list.d/brave-browser-release.list
+
+apt update
+
+apt install brave-browser
