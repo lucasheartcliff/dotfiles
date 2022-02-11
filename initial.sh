@@ -112,3 +112,6 @@ Terminal=false
 Icon=brave-browser
 Type=Application
 Categories=Network;WebBrowser;' >> ~/.local/share/applications/brave-browser.desktop
+
+apt install mariadb-server
+mysql_secure_installation
