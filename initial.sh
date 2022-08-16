@@ -62,28 +62,6 @@ nvm install 14
 nvm install 12
 nvm install 10
 
-#Adding  Oh My ZSH
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-ZSH_PATH=$HOME/.oh-my-zsh
-
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_PATH/custom/plugins/zsh-syntax-highlighting
-
-git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_PATH/custom/plugins/zsh-autosuggestions
-
-git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_PATH/custom/themes/spaceship-prompt"
-
-ln -s "$ZSH_PATH/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_PATH/custom/themes/spaceship.zsh-theme"
-
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
-
-#Adding Dracula theme
-DRACULA_THEME=$ZSH_PATH/custom/themes
-
-git clone https://github.com/dracula/zsh.git $DRACULA_THEME
-
-ln -s $DRACULA_THEME/dracula.zsh-theme $ZSH_PATH/themes/dracula.zsh-theme
-
 # Adding font family
 
 apt install fonts-firacode
@@ -92,26 +70,6 @@ apt install fonts-firacode
 # Changing default shell script
 
 chsh -s $(which zsh)
-
-apt install apt-transport-https
-
-curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|tee /etc/apt/sources.list.d/brave-browser-release.list
-
-apt update
-
-apt install brave-browser
-
-
-echo '[Desktop Entry]
-Name=Brave Browser
-Exec=/usr/bin/brave-browser-stable %U --remote-debugging-port=9222
-StartupNotify=true
-Terminal=false
-Icon=brave-browser
-Type=Application
-Categories=Network;WebBrowser;' >> ~/.local/share/applications/brave-browser.desktop
 
 apt install mariadb-server
 mysql_secure_installation
