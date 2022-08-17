@@ -1,14 +1,12 @@
 #!/bin/sh
 
 # Should run with sudo
-add-apt-repository ppa:gnome-terminator
 add-apt-repository universe
 
 apt update
 
 apt install code
 snap install intellij-idea-community --classic
-snap install pycharm-community --classic
 apt install git
 apt install curl
 apt install wget

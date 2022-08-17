@@ -7,7 +7,6 @@ plugins=(
     emoji 
     encode64
     git
-    nvm 
     zsh-autosuggestions
     zsh-syntax-highlighting
     dnf
