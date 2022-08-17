@@ -40,8 +40,6 @@ apt install -y python3-venv
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 
-wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
-apt install postgresql postgresql-contrib
 
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
@@ -61,6 +59,3 @@ nvm install 10
 # Adding font family
 
 
-
-apt install mariadb-server
-mysql_secure_installation
