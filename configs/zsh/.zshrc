@@ -1,0 +1,24 @@
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=( 
+    kubectl 
+    history 
+    emoji 
+    encode64
+    git
+    nvm 
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    dnf
+    pyenv
+    npm
+    nvm
+    yarn
+    pip
+)
+source $ZSH/oh-my-zsh.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

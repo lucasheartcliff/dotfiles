@@ -9,13 +9,6 @@ apt update
 apt install code
 snap install intellij-idea-community --classic
 snap install pycharm-community --classic
-
-apt-get install terminator
-update-alternatives --config x-terminal-emulator
-
-mkdir $HOME/.config/terminator/
-cat ./terminator-config >> $HOME/.config/terminator/config
-
 apt install git
 apt install curl
 apt install wget
@@ -56,7 +49,7 @@ echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 echo 'pyenv virtualenvwrapper' >> ~/.bashrc
 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | zsh 
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh 
 
 source ~/.profile  
 
@@ -67,12 +60,7 @@ nvm install 10
 
 # Adding font family
 
-apt install fonts-firacode
 
-
-# Changing default shell script
-
-chsh -s $(which zsh)
 
 apt install mariadb-server
 mysql_secure_installation

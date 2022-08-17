@@ -20,3 +20,10 @@ DRACULA_THEME=$ZSH_PATH/custom/themes
 git clone https://github.com/dracula/zsh.git $DRACULA_THEME
 
 ln -s $DRACULA_THEME/dracula.zsh-theme $ZSH_PATH/themes/dracula.zsh-theme
+
+rm -f ~/.zshrc
+cp ./configs/zsh/.zshrc ~/.zshrc
+
+# Changing default shell script
+
+chsh -s $(which zsh)
