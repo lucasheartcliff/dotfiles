@@ -14,6 +14,9 @@ ln -s "$ZSH_PATH/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_PATH/
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_PATH/custom/themes/powerlevel10k"
+
 #Adding Dracula theme
 DRACULA_THEME=$ZSH_PATH/custom/themes
 
