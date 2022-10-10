@@ -1,8 +1,14 @@
-
-#Adding  Oh My ZSH
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+source ./check_os.sh
 
 ZSH_PATH=$HOME/.oh-my-zsh
+
+if [ is_fedora ]; then
+    sudo dnf install zsh
+    wget --no-check-certificate http://install.ohmyz.sh -O - | sh
+    
+else
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_PATH/custom/plugins/zsh-syntax-highlighting
 
@@ -28,5 +34,5 @@ rm -f ~/.zshrc
 cp ./configs/zsh/.zshrc ~/.zshrc
 
 # Changing default shell script
-
+sudo chsh -s /usr/bin/zsh
 chsh -s $(which zsh)
