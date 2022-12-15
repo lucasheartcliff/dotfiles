@@ -5,6 +5,7 @@ end, 0)
 require "core"
 require "core.options"
 
+
 -- setup packer + plugins
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
@@ -32,3 +33,5 @@ end
 pcall(require, "custom")
 
 require("core.utils").load_mappings()
+vim.cmd[[colorscheme dracula]]
+

@@ -3,7 +3,7 @@ local plugins = {
   ["nvim-lua/plenary.nvim"] = { module = "plenary" },
 
   ["lewis6991/impatient.nvim"] = {},
-
+  ["Mofiqul/dracula.nvim"] = {},
   ["wbthomason/packer.nvim"] = {
     cmd = require("core.lazy_load").packer_cmds,
     config = function()
