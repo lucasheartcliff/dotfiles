@@ -1,4 +1,4 @@
-sudo dnf install -y neovim python3-neovim
+sudo dnf install -y neovim python3-neovim gcc-c++  
 
 BASE=$(pwd)
 
