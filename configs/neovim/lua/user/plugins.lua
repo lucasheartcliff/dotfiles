@@ -86,9 +86,16 @@ return packer.startup(function(use)
 
 	-- Treesitter
 	use "nvim-treesitter/nvim-treesitter"
-
+	use {
+		"ThePrimeagen/refactoring.nvim",
+		requires = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-treesitter/nvim-treesitter" }
+		}
+	}
 	-- Git
 	use "lewis6991/gitsigns.nvim"
+	use 'f-person/git-blame.nvim'
 
 	-- Wakatime
 	use 'wakatime/vim-wakatime'
