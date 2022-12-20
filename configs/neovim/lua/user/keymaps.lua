@@ -49,7 +49,12 @@ keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract 
 -- Inline variable can also pick up the identifier currently under the cursor without visual mode
 keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
     { noremap = true, silent = true, expr = false })
-
+keymap(
+    "v",
+    "<leader>rr",
+    ":lua require('refactoring').select_refactor()<CR>",
+    { noremap = true, silent = true, expr = false }
+)
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
