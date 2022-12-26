@@ -43,6 +43,9 @@ return packer.startup(function(use)
 	use "wbthomason/packer.nvim" -- Have packer manage itself
 	use "nvim-lua/plenary.nvim" -- Useful lua functions used by lots of plugins
 	use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+
+	use 'windwp/nvim-ts-autotag'
+
 	use "numToStr/Comment.nvim"
 	use "JoosepAlviste/nvim-ts-context-commentstring"
 	use "kyazdani42/nvim-web-devicons"
@@ -56,6 +59,7 @@ return packer.startup(function(use)
 	use "lukas-reineke/indent-blankline.nvim"
 	use "goolord/alpha-nvim"
 	use "folke/which-key.nvim"
+	use "norcalli/nvim-colorizer.lua"
 
 	-- Colorschemes
 	use "folke/tokyonight.nvim"
@@ -96,10 +100,10 @@ return packer.startup(function(use)
 	-- Git
 	use "lewis6991/gitsigns.nvim"
 	use 'f-person/git-blame.nvim'
-  
-  use "Pocco81/auto-save.nvim"
-	
-  -- Wakatime
+
+	use "Pocco81/auto-save.nvim"
+
+	-- Wakatime
 	use 'wakatime/vim-wakatime'
 
 	-- Discord

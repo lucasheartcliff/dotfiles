@@ -27,7 +27,7 @@ keymap("n", "<C-l>", "<C-w>l", opts)
 
 keymap("n", "<C-n>", ":Lex 30<cr>", opts)
 keymap("n", "<S-f>", ":Telescope find_files<cr>", opts)
-
+keymap("n", "<leader>rr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 -- Refactoring
 -- Remaps for the refactoring operations currently offered by the plugin
 keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
@@ -49,9 +49,10 @@ keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract 
 -- Inline variable can also pick up the identifier currently under the cursor without visual mode
 keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
     { noremap = true, silent = true, expr = false })
+
 keymap(
     "v",
-    "<leader>rr",
+    "<C-r>r",
     ":lua require('refactoring').select_refactor()<CR>",
     { noremap = true, silent = true, expr = false }
 )
@@ -74,6 +75,12 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- Press jk fast to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
 keymap("i", "kj", "<ESC>", opts)
+
+-- Visual --
+-- Press jk fast to exit insert mode
+keymap("v", "jk", "<ESC>", opts)
+keymap("v", "kj", "<ESC>", opts)
+
 
 -- Visual --
 -- Stay in indent mode

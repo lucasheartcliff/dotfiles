@@ -23,13 +23,15 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = false, -- disable virtual text
+		virtual_text = { spacing = 4, prefix = "●" }, -- Warining and error lens
 		signs = {
 			active = signs, -- show signs
 		},
 		update_in_insert = true,
 		underline = true,
 		severity_sort = true,
+
+
 		float = {
 			focusable = true,
 			style = "minimal",
@@ -73,7 +75,7 @@ end
 
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
-		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentFormattingProvider = true
 	end
 
 	if client.name == "sumneko_lua" then
