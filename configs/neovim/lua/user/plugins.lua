@@ -52,7 +52,9 @@ return packer.startup(function(use)
 	use "kyazdani42/nvim-tree.lua"
 	use "akinsho/bufferline.nvim"
 	use "moll/vim-bbye"
+
 	use "nvim-lualine/lualine.nvim"
+
 	use "akinsho/toggleterm.nvim"
 	use "ahmedkhalf/project.nvim"
 	use "lewis6991/impatient.nvim"
@@ -83,6 +85,10 @@ return packer.startup(function(use)
 	use "williamboman/mason.nvim" -- simple to use language server installer
 	use "williamboman/mason-lspconfig.nvim"
 	use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+	use "glepnir/lspsaga.nvim"
+
+	use { 'MunifTanjim/prettier.nvim', requires = { { "jose-elias-alvarez/null-ls.nvim" }, { "neovim/nvim-lspconfig" } } }
+
 	use "RRethy/vim-illuminate"
 
 	-- Telescope
