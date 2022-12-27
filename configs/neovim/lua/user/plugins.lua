@@ -89,8 +89,6 @@ return packer.startup(function(use)
 
 	use { 'MunifTanjim/prettier.nvim', requires = { { "jose-elias-alvarez/null-ls.nvim" }, { "neovim/nvim-lspconfig" } } }
 
-	use "RRethy/vim-illuminate"
-
 	-- Telescope
 	use "nvim-telescope/telescope.nvim"
 
