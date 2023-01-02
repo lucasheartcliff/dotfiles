@@ -49,19 +49,19 @@ return packer.startup(function(use)
 	-- use "folke/lua-dev.nvim"
 
 	-- LSP
-	use "neovim/nvim-lspconfig" -- enable LSP
-	use {
-		"williamboman/nvim-lsp-installer",
-		"neovim/nvim-lspconfig",
-	} -- simple to use language server installer
-	use "williamboman/mason.nvim"
-	use "williamboman/mason-lspconfig.nvim"
-	use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
-	use "ray-x/lsp_signature.nvim"
-	use "glepnir/lspsaga.nvim"
-	use "SmiteshP/nvim-navic"
-	use "simrat39/symbols-outline.nvim"
-	use "b0o/SchemaStore.nvim"
+	-- use "neovim/nvim-lspconfig" -- enable LSP
+	-- use {
+	-- 	"williamboman/nvim-lsp-installer",
+	-- 	"neovim/nvim-lspconfig",
+	-- } -- simple to use language server installer
+	-- use "williamboman/mason.nvim"
+	-- use "williamboman/mason-lspconfig.nvim"
+	-- use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+	-- use "ray-x/lsp_signature.nvim"
+	-- use "glepnir/lspsaga.nvim"
+	-- use "SmiteshP/nvim-navic"
+	-- use "simrat39/symbols-outline.nvim"
+	-- use "b0o/SchemaStore.nvim"
 	-- use "github/copilot.vim"
 	-- use {
 	-- 	"zbirenbaum/copilot.lua",
@@ -78,18 +78,19 @@ return packer.startup(function(use)
 	-- use "simrat39/inlay-hints.nvim"
 	use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
 
-	-- Completion
-	use "christianchiarulli/nvim-cmp"
-	use "hrsh7th/cmp-buffer" -- buffer completions
-	use "hrsh7th/cmp-path" -- path completions
-	use "hrsh7th/cmp-cmdline" -- cmdline completions
-	use "saadparwaiz1/cmp_luasnip" -- snippet completions
-	use "hrsh7th/cmp-nvim-lsp"
-	use "hrsh7th/cmp-emoji"
-	use "hrsh7th/cmp-nvim-lua"
-	use "zbirenbaum/copilot-cmp"
-	use { "tzachar/cmp-tabnine", commit = "1a8fd2795e4317fd564da269cc64a2fa17ee854e",
-		run = "./install.sh" }
+    -- Completion
+	use { 'neoclide/coc.nvim', branch = 'release' }
+	-- use "christianchiarulli/nvim-cmp"
+	-- use "hrsh7th/cmp-buffer" -- buffer completions
+	-- use "hrsh7th/cmp-path" -- path completions
+	-- use "hrsh7th/cmp-cmdline" -- cmdline completions
+	-- use "saadparwaiz1/cmp_luasnip" -- snippet completions
+	-- use "hrsh7th/cmp-nvim-lsp"
+	-- use "hrsh7th/cmp-emoji"
+	-- use "hrsh7th/cmp-nvim-lua"
+	-- use "zbirenbaum/copilot-cmp"
+	-- use { "tzachar/cmp-tabnine", commit = "1a8fd2795e4317fd564da269cc64a2fa17ee854e",
+	-- 	run = "./install.sh" }
 
 	-- Snippet
 	use "L3MON4D3/LuaSnip" --snippet engine
@@ -128,9 +129,9 @@ return packer.startup(function(use)
 	use "nvim-colortils/colortils.nvim"
 
 	-- Colorschemes
-	use "lunarvim/onedarker.nvim"
-	use "lunarvim/darkplus.nvim"
-	use "folke/tokyonight.nvim"
+	-- use "lunarvim/onedarker.nvim"
+	-- use "lunarvim/darkplus.nvim"
+	-- use "folke/tokyonight.nvim"
 	use 'Mofiqul/dracula.nvim'
 
 	-- Transparent
@@ -210,14 +211,14 @@ return packer.startup(function(use)
 	use "pwntester/octo.nvim"
 
 	-- Editing Support
-	use "windwp/nvim-autopairs"
-	use "monaqa/dial.nvim"
-	use "nacro90/numb.nvim"
-	use "andymass/vim-matchup"
-	use "folke/zen-mode.nvim"
+	-- use "windwp/nvim-autopairs"
+	-- use "monaqa/dial.nvim"
+	-- use "nacro90/numb.nvim"
+	-- use "andymass/vim-matchup"
+	-- use "folke/zen-mode.nvim"
 	-- use "Pocco81/true-zen.nvim"
 	use "karb94/neoscroll.nvim"
-	use "junegunn/vim-slash"
+	-- use "junegunn/vim-slash"
 
 	-- Motion
 	use "phaazon/hop.nvim"
