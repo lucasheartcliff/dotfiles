@@ -5,7 +5,7 @@ ZSH_PATH=$HOME/.oh-my-zsh
 if [ is_fedora ]; then
     sudo dnf install zsh
     wget --no-check-certificate http://install.ohmyz.sh -O - | sh
-    
+
 else
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
@@ -19,7 +19,6 @@ git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_PATH/custom/
 ln -s "$ZSH_PATH/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_PATH/custom/themes/spaceship.zsh-theme"
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
-
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_PATH/custom/themes/powerlevel10k"
 

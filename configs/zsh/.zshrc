@@ -34,3 +34,8 @@ export NVM_DIR="$HOME/.nvm"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+if [ -n "$PS1" ] && [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s main && 
+fi
+export PATH="$HOME/.local/bin":$PATH
