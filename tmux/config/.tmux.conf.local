@@ -179,7 +179,7 @@ tmux_conf_theme_right_separator_sub=''  #   PowerlineSymbols.otf font
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_status_left=' CPU: #{cpu_percentage} | RAM: #{ram_percentage} | #W | #{git_branch}'
+tmux_conf_theme_status_left=' CPU: #{cpu_percentage} | RAM: #{ram_percentage} | #W | #{git_branch} '
 tmux_conf_theme_status_right=' Online: #{online_status} | #{username}#{root} | #{hostname} '
 
 # status left style
@@ -275,7 +275,7 @@ tmux_conf_copy_to_os_clipboard=true
 # this is the place to override or undo settings
 
 # increase history size
-#set -g history-limit 10000
+set -g history-limit 10000
 
 # start with mouse mode enabled
 set -g mouse on
@@ -287,40 +287,8 @@ set -g mouse on
 
 # replace C-b by C-a instead of using both prefixes
 # set -gu prefix2
-# unbind C-a
-unbind C-b
-set -g prefix C-t
+# unbind C-b
 # bind C-a send-prefix
-
-# move status line to top
-#set -g status-position top
-
-
-#### Key bindings
-
-set-window-option -g mode-keys vi
-
-#bind t send-key C-t
-# Open current directory
-bind o run-shell "open #{pane_current_path}"
-bind -r e kill-pane -a
-
-# vim-like pane switching
-bind -r k select-pane -U 
-bind -r j select-pane -D 
-bind -r h select-pane -L 
-bind -r l select-pane -R 
-
-# Moving window
-bind-key -n C-S-Left swap-window -t -1 \; previous-window
-bind-key -n C-S-Right swap-window -t +1 \; next-window
-
-# Resizing pane
-bind -r C-k resize-pane -U 5
-bind -r C-j resize-pane -D 5
-bind -r C-h resize-pane -L 5
-bind -r C-l resize-pane -R 5
-
 
 # List of plugins
 set -g @tpm_plugins '               \
@@ -332,11 +300,10 @@ set -g @tpm_plugins '               \
     chriszarate/tmux-tasks          \
     RobertKirk/tmux-ram             \
     tmux-plugins/tmux-online-status \
-    tmux-plugins/tmux-resurrect     \
-    tmux-plugins/tmux-continuum     \
     shuber/tmux-git                 \
 '
-
+# tmux-plugins/tmux-resurrect     \
+    # tmux-plugins/tmux-continuum     \
 # tmux-tasks plugin configuration
 # Task manager
 set -g @tasks_manager 'taskwarrior'
@@ -348,3 +315,4 @@ set -g @tasks_format_end '#[fg=white,bg=#44475a]'
 # Icons
 set -g @tasks_icon_urgent '🔥'
 set -g @tasks_icon_outstanding '+'
+
