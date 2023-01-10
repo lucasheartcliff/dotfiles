@@ -8,39 +8,6 @@ else
   sudo apt-get install python-dev python-pip python3-dev python3-pip;
 fi;
 
-set -o nounset    # error when referencing undefined variable
-set -o errexit    # exit when command fails
-
-# Install latest nodejs
-if [ ! -x "$(command -v node)" ]; then
-    curl --fail -LSs https://install-node.now.sh/latest | sh
-    export PATH="/usr/local/bin/:$PATH"
-    # Or use package manager, e.g.
-    # sudo apt-get install nodejs
-fi
-
-# Use package feature to install coc.nvim
-
-# for vim8
-mkdir -p ~/.vim/pack/coc/start
-cd ~/.vim/pack/coc/start
-curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
-# for neovim
-# mkdir -p ~/.local/share/nvim/site/pack/coc/start
-# cd ~/.local/share/nvim/site/pack/coc/start
-# curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
-
-# Install extensions
-mkdir -p ~/.config/coc/extensions
-cd ~/.config/coc/extensions
-if [ ! -f package.json ]
-then
-  echo '{"dependencies":{}}'> package.json
-fi
-# Change extension names to the extensions you need
-npm install coc-snippets --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-
-nvm install 16
-nvm use 16
+LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 yarn global add typescript-language-server
