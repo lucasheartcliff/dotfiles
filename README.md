@@ -1,19 +1,16 @@
-# initial-config
+![nvim screenshot](./assets/img/neovim.png)
+![zsh screenshot](./assets/img/zsh.png)
 
-## Postgres steps
+# lucasheartcliff's dotfiles
 
-open the file pg_hba.conf for Ubuntu it will be in /etc/postgresql/x/main and change this line:
+**Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
-```txt
-    local   all             postgres                                peer
-```
+## Contents
 
-to
+- vim (NeoVim) config
+- tmux config
+- zsh config
+- gnome config
+- browser config
+- fonts (Nerd Fonts) config
 
-```txt
-    local   all             postgres                                trust
-```
-
-Then, restart the server
-
-`sudo service postgresql restart`
