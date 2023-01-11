@@ -9,5 +9,7 @@ else
     sudo update-alternatives --config x-terminal-emulator
 fi
 
+
+rm -rf $HOME/.config/terminator/
 mkdir $HOME/.config/terminator/
-cp ./configs/terminator/terminator-config $HOME/.config/terminator/config
+cp ./terminator-config $HOME/.config/terminator/config
