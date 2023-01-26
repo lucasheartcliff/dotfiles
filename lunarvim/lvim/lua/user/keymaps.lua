@@ -23,7 +23,7 @@ keymap("v", "jk", "<ESC>", opts)
 keymap("v", "kj", "<ESC>", opts)
 
 
--- -- Visual --
+-- -- Visual -
 -- -- Stay in indent mode
 -- keymap("v", "<", "<gv", opts)
 -- keymap("v", ">", ">gv", opts)
