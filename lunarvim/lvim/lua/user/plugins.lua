@@ -20,7 +20,7 @@ lvim.plugins = {
       require('neoscroll').setup({
         -- All these keys will be mapped to their corresponding default scrolling animation
         mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
-         '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+          '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
         hide_cursor = true, -- Hide cursor while scrolling
         stop_eof = true, -- Stop at <EOF> when scrolling downwards
         use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
@@ -191,5 +191,35 @@ lvim.plugins = {
     config = function()
       require("spectre").setup()
     end,
+  },
+  {
+    'justinmk/vim-sneak',
+  }, {
+    "echasnovski/mini.map",
+    branch = "stable",
+    config = function()
+      require('mini.map').setup()
+      local map = require('mini.map')
+      map.setup({
+        integrations = {
+          map.gen_integration.builtin_search(),
+          map.gen_integration.diagnostic({
+            error = 'DiagnosticFloatingError',
+            warn  = 'DiagnosticFloatingWarn',
+            info  = 'DiagnosticFloatingInfo',
+            hint  = 'DiagnosticFloatingHint',
+          }),
+        },
+        symbols = {
+          encode = map.gen_encode_symbols.dot('4x2'),
+        },
+        window = {
+          side = 'right',
+          width = 5, -- set to 1 for a pure scrollbar :)
+          winblend = 15,
+          show_integration_count = false,
+        },
+      })
+    end
   },
 }
