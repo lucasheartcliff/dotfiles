@@ -48,3 +48,13 @@ keymap("v", "kj", "<ESC>", opts)
 -- -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+--
+
+-- Copy and paste from system clipboard
+keymap("v", "y", '"+y', opts)
+keymap("v", "yy", '"+yy', opts)
+
+-- keymap("n", "y", '"+y', opts)
+keymap("n", "yy", '"+yy', opts)
+
+keymap("n", "p", '"+p', opts)
