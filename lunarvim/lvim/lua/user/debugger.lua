@@ -1,4 +1,4 @@
-local dap = require('dap')
+local _, dap = pcall(require,'dap')
 
 -- TS/JS Debugger --
 dap.adapters.node2 = {
@@ -39,20 +39,30 @@ dap.configurations.python = {
     end,
   },
 }
-
-dap.adapters.java = {
-  type = 'executable',
-  command = 'java',
-  args = { '-cp', '/path/to/vscode-java-debug.jar', 'com.microsoft.java.debug.core.Main' },
-}
-
+local JAVA_PORT = 5005
 dap.configurations.java = {
   {
     type = 'java',
-    request = 'launch',
-    name = 'Debug (Launch)',
-    mainClass = '${file}',
-    args = '',
-    jvmArgs = '-ea',
-  },
+    request = 'attach',
+    name = "Attach to remote Java server",
+    hostName = "localhost",
+    port = JAVA_PORT -- The port on which the server is listening
+  }
 }
+dap.adapters.java = {
+  type = 'executable',
+  command = 'jdb',
+  args = { '-connect', 'com.sun.jdi.SocketAttach:hostname=localhost,port=5005' }
+  --args = { '-cp', './resources/java-debug.jar', 'com.microsoft.java.debug.core.Main' },
+}
+
+-- dap.configurations.java = {
+--   {
+--     type = 'java',
+--     request = 'launch',
+--     name = 'Debug (Launch)',
+--     mainClass = '${file}',
+--     args = '',
+--     jvmArgs = '-ea',
+--   },
+-- }
