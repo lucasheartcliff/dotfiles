@@ -1,4 +1,31 @@
-local _, dap = pcall(require,'dap')
+local _, dap = pcall(require, 'dap')
+dap.set_log_level("DEBUG")
+
+local M = {}
+
+
+
+
+function M.execute_buf_command(command, callback)
+  vim.lsp.buf_request(
+    0, 'workspace/executeCommand', command, function(err, _, res)
+      if callback then
+        callback(err, res)
+      elseif err then
+        print('Execute command failed: ' .. err.message)
+      end
+    end)
+end
+
+function M.execute_command(command, callback)
+  if type(command) == 'string' then command = { command = command } end
+
+  M.execute_buf_command(
+    command, function(err, res)
+      -- assert(not err, err and (err.message or Log.ins(err)))
+      callback(res)
+    end)
+end
 
 -- TS/JS Debugger --
 dap.adapters.node2 = {
@@ -39,6 +66,12 @@ dap.configurations.python = {
     end,
   },
 }
+
+-- dap.adapters.java = {
+--   type = "executable",
+--   command = "java",
+--   args = { "-jar", os.getenv("HOME") .. "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server" }
+-- }
 local JAVA_PORT = 5005
 dap.configurations.java = {
   {
@@ -46,14 +79,9 @@ dap.configurations.java = {
     request = 'attach',
     name = "Attach to remote Java server",
     hostName = "localhost",
+    timeout = 30000,
     port = JAVA_PORT -- The port on which the server is listening
   }
-}
-dap.adapters.java = {
-  type = 'executable',
-  command = 'jdb',
-  args = { '-connect', 'com.sun.jdi.SocketAttach:hostname=localhost,port=5005' }
-  --args = { '-cp', './resources/java-debug.jar', 'com.microsoft.java.debug.core.Main' },
 }
 
 -- dap.configurations.java = {
@@ -66,3 +94,5 @@ dap.adapters.java = {
 --     jvmArgs = '-ea',
 --   },
 -- }
+--
+return M
