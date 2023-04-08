@@ -12,9 +12,9 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = true
+lvim.format_on_save.enabled = false
 lvim.colorscheme = "dracula"
-lvim.transparent_window = true
+lvim.transparent_window = false
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -219,7 +219,7 @@ lvim.autocommands = {
           "netrw",
         }
 
-        local _, map = pcall(require,'mini.map')
+        local _, map = pcall(require, 'mini.map')
         if vim.tbl_contains(exclude_ft, vim.o.filetype) then
           vim.b.minimap_disable = true
           map.close()
