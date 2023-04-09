@@ -1,5 +1,4 @@
-![nvim screenshot](./assets/img/neovim.png)
-![zsh screenshot](./assets/img/zsh.png)
+![setup screenshot](./assets/setup.png)
 
 # lucasheartcliff's dotfiles
 
