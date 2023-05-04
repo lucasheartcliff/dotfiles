@@ -1,4 +1,6 @@
 lvim.plugins = {
+  { "ChristianChiarulli/swenv.nvim" },
+  { "stevearc/dressing.nvim" },
   { "mfussenegger/nvim-jdtls" },
   { "lunarvim/colorschemes" },
   {

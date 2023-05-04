@@ -15,12 +15,12 @@ local keymap = vim.api.nvim_set_keymap
 -- Insert --
 -- Press jk fast to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
-keymap("i", "kj", "<ESC>", opts)
+-- keymap("i", "kj", "<ESC>", opts)
 
 -- Visual --
 -- Press jk fast to exit insert mode
 keymap("v", "jk", "<ESC>", opts)
-keymap("v", "kj", "<ESC>", opts)
+-- keymap("v", "kj", "<ESC>", opts)
 
 
 -- -- Visual -
@@ -58,3 +58,11 @@ keymap("v", "yy", '"+yy', opts)
 keymap("n", "yy", '"+yy', opts)
 
 keymap("n", "p", '"+p', opts)
+
+
+-- Which Key
+
+-- lvim.builtin.which_key.mappings["C"] = {
+--   name = "Python",
+--   c = { "<cmd>lua require('swenv.api').pick_venv()<cr>", "Choose Env" },
+-- }
