@@ -6,7 +6,7 @@
 
 ## Contents
 
-- vim (NeoVim) config
+- Neovim config
 - tmux config
 - zsh config
 - gnome config

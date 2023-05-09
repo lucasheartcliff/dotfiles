@@ -12,7 +12,7 @@ end
 local _, dap = pcall(require, 'dap')
 dap.set_log_level("DEBUG")
 
-function start_debugger()
+function start_debugger ()
   local JAVA_PORT = 5005
   dap.configurations.java = {
     {
@@ -64,10 +64,7 @@ vim.list_extend(
   )
 )
 
--- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
 
     -- 💀
@@ -87,7 +84,6 @@ local config = {
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
 
-    -- 💀
     "-jar",
     vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
@@ -101,21 +97,12 @@ local config = {
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
 
-    -- 💀
-    -- See `data directory configuration` section in the README
     "-data",
     workspace_dir,
   },
   -- on_attach = require("lvim.lsp").on_attach,
   capabilities = capabilities,
-  -- 💀
-  -- This is the default if not provided, you can remove it. Or adjust as needed.
-  -- One dedicated LSP server & client will be started per unique root_dir
   root_dir = root_dir,
-  -- Here you can configure eclipse.jdt.ls specific settings
-  -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-  -- or https://github.com/redhat-developer/vscode-java#supported-vs-code-settings
-  -- for a list of options
   settings = {
     java = {
       -- jdt = {
@@ -133,14 +120,14 @@ local config = {
             name = "JavaSE-8",
             path = "~/.sdkman/candidates/java/8.0.362-amzn",
           },
-          {
-            name = "JavaSE-11",
-            path = "~/.sdkman/candidates/java/11.0.18-amzn",
-          },
-          {
-            name = "JavaSE-17",
-            path = "~/.sdkman/candidates/java/17.0.6-amzn",
-          },
+          -- {
+          --   name = "JavaSE-11",
+          --   path = "~/.sdkman/candidates/java/11.0.18-amzn",
+          -- },
+          -- {
+          --   name = "JavaSE-17",
+          --   path = "~/.sdkman/candidates/java/17.0.6-amzn",
+          -- },
         },
       },
       maven = {
@@ -225,3 +212,55 @@ vim.cmd(
 -- -- vim.cmd "command! -buffer JdtJol lua require('jdtls').jol()"
 -- vim.cmd "command! -buffer JdtBytecode lua require('jdtls').javap()"
 -- -- vim.cmd "command! -buffer JdtJshell lua require('jdtls').jshell()"
+
+
+-- Which Key Setup --
+
+local status_ok, which_key = pcall(require, "which-key")
+if not status_ok then
+  return
+end
+
+local opts = {
+  mode = "n",
+  prefix = "<leader>",
+  buffer = nil,
+  silent = true,
+  noremap = true,
+  nowait = true,
+}
+
+local vopts = {
+  mode = "v",
+  prefix = "<leader>",
+  buffer = nil,
+  silent = true,
+  noremap = true,
+  nowait = true,
+}
+
+local mappings = {
+  C = {
+    name = "Java",
+    o = { "<Cmd>lua require'jdtls'.organize_imports()<CR>", "Organize Imports" },
+    v = { "<Cmd>lua require('jdtls').extract_variable()<CR>", "Extract Variable" },
+    c = { "<Cmd>lua require('jdtls').extract_constant()<CR>", "Extract Constant" },
+    t = { "<Cmd>lua require'jdtls'.test_nearest_method()<CR>", "Test Method" },
+    T = { "<Cmd>lua require'jdtls'.test_class()<CR>", "Test Class" },
+    u = { "<Cmd>JdtUpdateConfig<CR>", "Update Config" },
+  },
+}
+
+local vmappings = {
+  C = {
+    name = "Java",
+    v = { "<Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>", "Extract Variable" },
+    c = { "<Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>", "Extract Constant" },
+    m = { "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", "Extract Method" },
+  },
+}
+
+which_key.register(mappings, opts)
+which_key.register(vmappings, vopts)
+
+

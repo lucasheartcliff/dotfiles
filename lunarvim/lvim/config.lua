@@ -1,5 +1,5 @@
 require("user")
-
+require("lvim.lsp.manager").setup("marksman")
 --[[
 lvim is the global options object
 
