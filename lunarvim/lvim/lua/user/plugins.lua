@@ -1,4 +1,8 @@
 lvim.plugins = {
+
+  { "mfussenegger/nvim-dap-python" },
+  { "nvim-neotest/neotest" },
+  { "nvim-neotest/neotest-python" },
   { "ChristianChiarulli/swenv.nvim" },
   { "stevearc/dressing.nvim" },
   { "mfussenegger/nvim-jdtls" },
