@@ -228,6 +228,8 @@ for _, language in ipairs(js_based_languages) do
       name = "Attach Node",
       port = 9229,
       restart = true,
+      sourceMaps = true,
+      console = "integratedTerminal",
       stopOnEntry = false,
       protocol = "inspector",
       trace = true,
