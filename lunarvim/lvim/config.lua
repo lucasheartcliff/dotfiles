@@ -12,6 +12,7 @@ an executable
 
 -- general
 lvim.log.level = "warn"
+vim.opt.relativenumber = true
 lvim.format_on_save.enabled = false
 lvim.colorscheme = "dracula"
 lvim.transparent_window = false
@@ -148,7 +149,6 @@ lvim.builtin.treesitter.highlight.enable = true
 -- })
 
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
-
 -- set a formatter, this will override the language server formatting capabilities (if it exists)
 lvim.autocommands = {
   {
@@ -177,3 +177,71 @@ lvim.autocommands = {
     },
   },
 }
+
+local dap = require("dap")
+
+
+dap.adapters.node2 = {
+  type = "executable",
+  command = "node",
+  args = { vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
+}
+
+-- Chrome
+dap.adapters.chrome = {
+  type = "executable",
+  command = "node",
+  args = { vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" },
+}
+-- require("dap-vscode-js").setup({
+--   debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+--   debugger_cmd = { "js-debug-adapter" },
+--   adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+-- })
+
+local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+for _, language in ipairs(js_based_languages) do
+  require("dap").configurations[language] = {
+    -- {
+    --   type = "pwa-node",
+    --   request = "launch",
+    --   name = "Launch file",
+    --   program = "${file}",
+    --   cwd = "${workspaceFolder}",
+    -- },
+    {
+      name = "Chrome (9222)",
+      type = "chrome",
+      request = "attach",
+      program = "${file}",
+      url = "http://localhost:3000/*",
+      cwd = vim.fn.getcwd(),
+      sourceMaps = true,
+      protocol = "inspector",
+      port = 9222,
+      webRoot = "${workspaceFolder}",
+    },
+    {
+      type = "node2",
+      request = "attach",
+      name = "Attach Node",
+      port = 9229,
+      restart = true,
+      sourceMaps = true,
+      console = "integratedTerminal",
+      stopOnEntry = false,
+      protocol = "inspector",
+      trace = true,
+
+    },
+    -- {
+    --   type = "pwa-chrome",
+    --   request = "launch",
+    --   name = "Start Chrome",
+    --   url = "http = //localhost:3000",
+    --   webRoot = "${workspaceFolder}",
+    --   userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+    -- }
+  }
+end

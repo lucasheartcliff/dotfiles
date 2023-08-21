@@ -17,17 +17,29 @@ for _, language in ipairs(js_based_languages) do
       cwd = "${workspaceFolder}",
     },
     {
+      name = "Attach Browser",
+      type = "pwa-chrome",
+      request = "attach",
+      port = 9222,
+      url = "http://localhost:3000/*",
+      webRoot = "${workspaceFolder}"
+    },
+    {
       type = "pwa-node",
       request = "attach",
-      name = "Attach",
-      processId = require 'dap.utils'.pick_process,
-      cwd = "${workspaceFolder}",
+      name = "Attach Node",
+      port = 9229,
+      restart = true,
+      stopOnEntry = false,
+      protocol = "inspector",
+      trace = true,
+
     },
     {
       type = "pwa-chrome",
       request = "launch",
       name = "Start Chrome with \"localhost\"",
-      url = "http://localhost:3000",
+      url = "http = //localhost:3000",
       webRoot = "${workspaceFolder}",
       userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
     }
