@@ -1,7 +1,7 @@
 
 ZSH_PATH=$HOME/.oh-my-zsh
 
-sudo dnf install zsh
+sudo dnf install zsh fzf lsd -y
 wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 
 
