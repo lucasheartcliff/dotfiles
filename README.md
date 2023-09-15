@@ -1,6 +1,6 @@
 ![setup screenshot](./assets/setup.png)
 
-# lucasheartcliff's dotfiles
+# Dotfiles
 
 **Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
@@ -12,4 +12,4 @@
 - gnome config
 - browser config
 - fonts (Nerd Fonts) config
-
+- SDK configs

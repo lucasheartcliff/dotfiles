@@ -24,9 +24,9 @@ wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 
 # ln -s $DRACULA_THEME/dracula.zsh-theme $ZSH_PATH/themes/dracula.zsh-theme
 
-# # Changing default shell script
-# sudo chsh -s /usr/bin/zsh
-# chsh -s $(which zsh)
+# Changing default shell script
+sudo chsh -s /usr/bin/zsh
+chsh -s $(which zsh)
 sudo lchsh $USER 
 
 #Then type /bin/zsh
