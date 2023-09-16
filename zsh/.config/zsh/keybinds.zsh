@@ -1,2 +1,1 @@
-# keybinds
 bindkey '^ ' autosuggest-accept

@@ -10,15 +10,4 @@ printf "[vscode]\nname=packages.microsoft.com\nbaseurl=https://packages.microsof
 
 sudo dnf install -y brave-browser brave-keyring terminator tmux git curl wget make code
 
-echo '[Desktop Entry]
-    Name=Brave Browser
-    Exec=/usr/bin/brave-browser-stable %U --remote-debugging-port=9222
-    StartupNotify=true
-    Terminal=false
-    Icon=brave-browser
-    Type=Application
-    Categories=Network;WebBrowser;' >> ~/.local/share/applications/brave-browser.desktop
-
-sudo chsh -s /usr/bin/zsh
-chsh -s $(which zsh)
-sudo lchsh $USER 
+sh ./tools-exec.sh
