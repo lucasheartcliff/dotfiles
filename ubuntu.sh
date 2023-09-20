@@ -4,7 +4,7 @@ sudo apt update
 sudo apt install -y build-essential libssl-dev libffi-dev git curl wget zsh make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev terminator tmux
 
 sudo snap install intellij-idea-community --classic
-sudo snap install code
+sudo snap install code --classic
 
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
