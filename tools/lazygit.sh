@@ -1,6 +1,6 @@
 
 #!/bin/bash
-FOLDER_PATH="/tmp/$(uuidgen -r)/"
+FOLDER_PATH="/tmp/$(uuidgen -r)"
 mkdir $FOLDER_PATH
 
 FILE_PATH="$FOLDER_PATH/lazygit_0.40.2_Linux_x86_64.tar.gz"
