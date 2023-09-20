@@ -1,2 +1,3 @@
 #!/bin/bash
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+nvm install 16

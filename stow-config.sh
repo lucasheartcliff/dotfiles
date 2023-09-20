@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -f $HOME/.zshrc
+mv $HOME/.config/ $HOME/.config_old
 
 # Define an array of folders to ignore
 declare -a ignored_folders=("assets" "tools" "font-unicode")
@@ -17,3 +18,4 @@ for package in */; do
     stow "$package_name"
   fi
 done
+cp -r $HOME/.config_old/* $HOME/.config/

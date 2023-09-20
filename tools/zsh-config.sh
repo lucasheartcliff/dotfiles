@@ -1,5 +1,5 @@
 #!/bin/bash
-wget --no-check-certificate http://install.ohmyz.sh -O - | sh
-sudo chsh -s /usr/bin/zsh
+wget --no-check-certificate http://install.ohmyz.sh -O - | bash
 chsh -s $(which zsh)
-sudo lchsh $USER 
+
+echo "You should restart to take effect"
