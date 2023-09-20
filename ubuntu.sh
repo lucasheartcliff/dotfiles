@@ -4,13 +4,12 @@ sudo apt update
 sudo apt install -y build-essential libssl-dev libffi-dev git curl wget zsh make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev terminator tmux
 
 sudo snap install intellij-idea-community --classic
+sudo snap install code
+
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
@@ -18,7 +17,7 @@ wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
 
 sudo apt update
 
-sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server code
+sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server 
 
 echo '[Desktop Entry]
     Name=Brave Browser
