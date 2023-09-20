@@ -15,4 +15,4 @@ tar -xvzf $FILE_PATH -C $LSD_PATH
 rm -rf $FOLDER_PATH
 rm -f $HOME/.local/bin/lsd
 
-ln -s $LSD_PATH/lsd $HOME/.local/bin/lsd
+ln -s $LSD_PATH/lsd-v1.0.0-x86_64-unknown-linux-gnu/lsd $HOME/.local/bin/lsd
