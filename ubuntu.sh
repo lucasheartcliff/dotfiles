@@ -6,8 +6,6 @@ sudo apt install -y build-essential libssl-dev libffi-dev git curl wget zsh make
 sudo snap install intellij-idea-community --classic
 sudo snap install code
 
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -28,4 +26,4 @@ echo '[Desktop Entry]
     Type=Application
     Categories=Network;WebBrowser;' >>~/.local/share/applications/brave-browser.desktop
 
-sh ./tools-exec.sh
+bash ./tools_install.sh
