@@ -1,3 +1,4 @@
+#!/bin/bash
 STOW=$HOME/.stow
 git clone https://github.com/aspiers/stow.git $STOW
 

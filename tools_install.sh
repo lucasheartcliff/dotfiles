@@ -13,7 +13,7 @@ fi
 for script in "$directory"*.sh; do
   if [ -f "$script" ] && [ -x "$script" ]; then
     echo "Executing script: $script"
-    "$script"   # Execute the script
+    bash "$script"   # Execute the script
   else
     echo "Unable to execute script: $script"
   fi

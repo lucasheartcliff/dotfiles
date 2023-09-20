@@ -1,3 +1,5 @@
+#!/bin/bash
+
 DIR_PATH="/tmp/$(uuidgen -r)/"
 
 git clone git@github.com:vinceliuice/Orchis-theme.git $DIR_PATH

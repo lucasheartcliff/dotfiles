@@ -1,3 +1,4 @@
+#!/bin/bash
 echo '[Desktop Entry]
     Name=Brave Browser
     Exec=/usr/bin/brave-browser-stable %U --remote-debugging-port=9222

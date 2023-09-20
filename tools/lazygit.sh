@@ -1,4 +1,5 @@
 
+#!/bin/bash
 FOLDER_PATH="/tmp/$(uuidgen -r)/"
 mkdir $FOLDER_PATH
 
