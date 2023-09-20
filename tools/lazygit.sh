@@ -8,7 +8,7 @@ FILE_PATH="$FOLDER_PATH/lazygit_0.40.2_Linux_x86_64.tar.gz"
 wget -P $FOLDER_PATH https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_x86_64.tar.gz
 
 
-LAZTGIT_PATH=$HOME/.lazygit/
+LAZTGIT_PATH=$HOME/.lazygit
 tar -xzvf $FILE_PATH -C $LAZTGIT_PATH
 
 rm -rf $FOLDER_PATH
