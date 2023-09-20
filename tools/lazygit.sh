@@ -11,8 +11,7 @@ LAZTGIT_PATH=$HOME/.lazygit
 rm -rf $LAZTGIT_PATH
 mkdir $LAZTGIT_PATH
 
-tar -xvzf $FILE_PATH -C $FOLDER_PATH
-cp $FOLDER_PATH/lazygit_0.40.2_Linux_x86_64/* $LAZTGIT_PATH
+tar -xvzf $FILE_PATH -C $LAZTGIT_PATH
 
 rm -rf $FOLDER_PATH
 rm -f $HOME/.local/bin/lazygit
