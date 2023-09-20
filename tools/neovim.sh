@@ -9,6 +9,7 @@ NVIM_PATH="$HOME/.neovim"
 
 rm -rf $NVIM_PATH
 
+mkdir $NVIM_PATH
 tar -xvzf $FILE_PATH -C $NVIM_PATH
 
 rm -rf $FOLDER_PATH
