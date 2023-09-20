@@ -5,11 +5,11 @@ mkdir $FOLDER_PATH
 FILE_PATH="$FOLDER_PATH/nvim-linux64.tar.gz"
 wget -P $FOLDER_PATH  https://github.com/neovim/neovim/releases/download/v0.9.2/nvim-linux64.tar.gz
 
-NVIM_PATH=$HOME/.neovim
+NVIM_PATH="$HOME/.neovim"
 
 rm -rf $NVIM_PATH
 
-tar -xzvf $FILE_PATH -C $NVIM_PATH
+tar -xvzf $FILE_PATH -C $NVIM_PATH
 
 rm -rf $FOLDER_PATH
 

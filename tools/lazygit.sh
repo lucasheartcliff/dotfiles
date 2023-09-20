@@ -9,7 +9,7 @@ wget -P $FOLDER_PATH https://github.com/jesseduffield/lazygit/releases/download/
 
 
 LAZTGIT_PATH=$HOME/.lazygit
-tar -xzvf $FILE_PATH -C $LAZTGIT_PATH
+tar -xvzf $FILE_PATH -C $LAZTGIT_PATH
 
 rm -rf $FOLDER_PATH
 rm -f $HOME/.local/bin/lazygit
