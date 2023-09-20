@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -f $HOME/.zshrc
+
 # Define an array of folders to ignore
 declare -a ignored_folders=("assets" "tools" "font-unicode")
 

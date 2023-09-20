@@ -3,9 +3,9 @@
 FOLDER_PATH="/tmp/$(uuidgen -r)/"
 mkdir $FOLDER_PATH
 
-FILE_PATH="$FOLDER_PATH/lazygit.taz.gz"
+FILE_PATH="$FOLDER_PATH/lazygit_0.40.2_Linux_x86_64.tar.gz"
 
-wget -P $FILE_PATH https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_x86_64.tar.gz
+wget -P $FOLDER_PATH https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_x86_64.tar.gz
 
 
 LAZTGIT_PATH=$HOME/.lazygit/
