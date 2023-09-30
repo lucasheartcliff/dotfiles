@@ -30,13 +30,6 @@ return {
   },
 
   -- change some telescope options and a keymap to browse plugin files
-  
-  
-
-  
-  -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
-
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
