@@ -157,3 +157,22 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+local opts = { noremap = true, silent = true }
+
+-- Shorten function name
+local keymap = vim.api.nvim_set_keymap
+-- Insert --
+-- Press jk fast to exit insert mode
+keymap("i", "jk", "<ESC>", opts)
+
+-- Visual --
+-- Press jk fast to exit insert mode
+keymap("v", "jk", "<ESC>", opts)
+
+-- Copy and paste from system clipboard
+keymap("v", "y", '"+y', opts)
+keymap("v", "yy", '"+yy', opts)
+-- keymap("n", "y", '"+y', opts)
+keymap("n", "yy", '"+yy', opts)
+keymap("n", "p", '"+p', opts)

@@ -1,5 +1,6 @@
 return {
 
+  { 'Mofiqul/dracula.nvim', lazy=true },
   -- tokyonight
   {
     "folke/tokyonight.nvim",
