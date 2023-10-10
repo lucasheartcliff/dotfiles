@@ -1,8 +1,0 @@
---require("user.hooks.prestart")
---require("user.configs.java")
--- require("user.dap-ui")
-require("user.formatters")
-require("user.linters")
-require("user.debugger")
-require("user.plugins")
-require("user.keymaps")
