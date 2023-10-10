@@ -1,7 +1,7 @@
 sudo add-apt-repository universe
 sudo apt update
 
-sudo apt install -y build-essential python x11-utils libssl-dev libffi-dev git curl wget zsh make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev terminator tmux stow
+sudo apt install -y build-essential python xclip x11-utils libssl-dev libffi-dev git curl wget zsh make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev terminator tmux stow
 
 sudo snap install intellij-idea-community --classic
 sudo snap install code --classic
@@ -15,7 +15,7 @@ wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
 
 sudo apt update
 
-sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server 
+sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server
 
 echo '[Desktop Entry]
     Name=Brave Browser
