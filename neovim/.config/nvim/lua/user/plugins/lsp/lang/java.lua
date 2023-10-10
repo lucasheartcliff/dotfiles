@@ -91,8 +91,10 @@ return {
           local root_dir = opts.root_dir(fname)
           local project_name = opts.project_name(root_dir)
           local cmd = vim.deepcopy(opts.cmd)
+          local lombok_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/") .. "packages/jdtls/lombok.jar"
           if project_name then
             vim.list_extend(cmd, {
+              "--jvm-arg=-javaagent:" .. lombok_path,
               "-configuration",
               opts.jdtls_config_dir(project_name),
               "-data",
