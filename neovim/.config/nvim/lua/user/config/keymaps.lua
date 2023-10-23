@@ -1,7 +1,6 @@
 -- This file is automatically loaded by user.config.init
 local Util = require("user.util")
 
--- DO NOT USE THIS IN YOU OWN CONFIG!!
 -- use `vim.keymap.set` instead
 local map = Util.safe_keymap_set
 
@@ -128,7 +127,7 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
 -- LazyVim Changelog
-map("n", "<leader>L", Util.changelog, { desc = "LazyVim Changelog" })
+--map("n", "<leader>L", Util.changelog, { desc = "LazyVim Changelog" })
 
 -- floating terminal
 local lazyterm = function() Util.float_term(nil, { cwd = Util.get_root() }) end
@@ -138,13 +137,13 @@ map("n", "<c-/>", lazyterm, { desc = "Terminal (root dir)" })
 map("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
 
 -- Terminal Mappings
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
-map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
-map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
-map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+--map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+--map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
+--map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
+--map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
+--map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
+--map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+--map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- windows
 map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
@@ -155,12 +154,12 @@ map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
 -- tabs
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
-map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
-map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+--map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+--map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+--map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+--map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+--map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+--map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 local opts = { noremap = true, silent = true }
 
@@ -168,11 +167,11 @@ local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
 -- Insert --
 -- Press jk fast to exit insert mode
-keymap("i", "jk", "<ESC>", opts)
+keymap("i", "jk", "<cmd>w<cr><esc>", opts)
 
 -- Visual --
 -- Press jk fast to exit insert mode
-keymap("v", "jk", "<ESC>", opts)
+keymap("v", "jk", "<cmd>w<cr><esc>", opts)
 
 -- Copy and paste from system clipboard
 keymap("v", "y", '"+y', opts)

@@ -6,18 +6,21 @@ return {
       {
         "<leader>un",
         function()
-          require("notify").dismiss({ silent = true, pending = true })
+          local notify = require("notify")
+          notify.dismiss({ silent = true, pending = true })
         end,
         desc = "Dismiss all Notifications",
       },
     },
     opts = {
-      timeout = 3000,
+      timeout = 300,
+      render = "default",
+      stages = "slide",
       max_height = function()
-        return math.floor(vim.o.lines * 0.75)
+        return math.floor(vim.o.lines * 0.5)
       end,
       max_width = function()
-        return math.floor(vim.o.columns * 0.75)
+        return math.floor(vim.o.columns * 0.5)
       end,
     },
     init = function()
@@ -55,8 +58,10 @@ return {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
     keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle pin" },
+      { "<leader>bt", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
       { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+      { "<leader>bn", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+      { "<leader>bp", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
     },
     opts = {
       options = {
@@ -69,7 +74,7 @@ return {
         diagnostics_indicator = function(_, _, diag)
           local icons = require("user.config").icons.diagnostics
           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-              .. (diag.warning and icons.Warn .. diag.warning or "")
+            .. (diag.warning and icons.Warn .. diag.warning or "")
           return vim.trim(ret)
         end,
         offsets = {
@@ -149,7 +154,7 @@ return {
             },
           },
           lualine_y = {
-            { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
             { "location", padding = { left = 0, right = 1 } },
           },
           lualine_z = {
@@ -397,5 +402,5 @@ return {
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- ui components
-  { "MunifTanjim/nui.nvim",        lazy = true },
+  { "MunifTanjim/nui.nvim", lazy = true },
 }
