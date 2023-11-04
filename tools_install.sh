@@ -19,4 +19,6 @@ for script in "$directory"*.sh; do
   fi
 done
 
+bash font-unicode/init.sh
+
 echo "All scripts have been executed."
