@@ -15,7 +15,7 @@ wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
 
 sudo apt update
 
-sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server
+sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server ripgrep
 
 echo '[Desktop Entry]
     Name=Brave Browser
