@@ -212,7 +212,7 @@ return {
               }
 
               require("jdtls").setup_dap(opts.dap)
-              require("jdtls.dap").setup_dap_main_class_configs(debug_configs)
+              require("jdtls.dap").setup_dap_main_class_configs()
               local status, dap = pcall(require, "dap")
               if not status then
                 return
