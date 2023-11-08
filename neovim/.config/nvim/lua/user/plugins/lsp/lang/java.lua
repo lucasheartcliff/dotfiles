@@ -199,8 +199,25 @@ return {
 
             if opts.dap and Util.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
               -- custom init for Java debugger
+              --
+              local debug_configs = {
+                {
+                  type = "java",
+                  request = "attach",
+                  name = "Attach to remote Java server",
+                  hostName = "localhost",
+                  timeout = 50000,
+                  port = 5005, -- The port on which the server is listening
+                },
+              }
+
               require("jdtls").setup_dap(opts.dap)
-              require("jdtls.dap").setup_dap_main_class_configs()
+              require("jdtls.dap").setup_dap_main_class_configs(debug_configs)
+              local status, dap = pcall(require, "dap")
+              if not status then
+                return
+              end
+              dap.configurations.java = debug_configs
 
               -- Java Test require Java debugger to work
               if opts.test and mason_registry.is_installed("java-test") then
