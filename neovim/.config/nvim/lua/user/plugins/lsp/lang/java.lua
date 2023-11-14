@@ -65,6 +65,12 @@ return {
     dependencies = { "folke/which-key.nvim" },
     ft = java_filetypes,
     opts = function()
+      local status, jdtls = pcall(require, "jdtls")
+      if not status then
+        return
+      end
+      local extendedClientCapabilities = jdtls.extendedClientCapabilities
+      extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
       return {
         -- How to find the root dir for a given filename. The default comes from
         -- lspconfig which provides a function specifically for java projects.
@@ -83,24 +89,84 @@ return {
           return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
         end,
 
-        settings = function(opts)
-          local settings = vim.deepcopy(opts.jdtls.settings)
-          settings.java.configuration.runtimes = {
-            {
-              name = "JavaSE-8",
-              path = "~/.sdkman/candidates/java/8.0.362-amzn",
+        settings = {
+          java = {
+            -- jdt = {
+            --   ls = {
+            --     vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m"
+            --   }
+            -- },
+            eclipse = {
+              downloadSources = true,
             },
-            {
-              name = "JavaSE-11",
-              path = "~/.sdkman/candidates/java/11.0.18-amzn",
+            configuration = {
+              updateBuildConfiguration = "interactive",
+              runtimes = {
+                {
+                  name = "JavaSE-8",
+                  path = "~/.sdkman/candidates/java/8.0.362-amzn",
+                },
+                {
+                  name = "JavaSE-11",
+                  path = "~/.sdkman/candidates/java/11.0.18-amzn",
+                },
+                {
+                  name = "JavaSE-17",
+                  path = "~/.sdkman/candidates/java/17.0.6-amzn",
+                },
+              },
             },
-            {
-              name = "JavaSE-17",
-              path = "~/.sdkman/candidates/java/17.0.6-amzn",
+            maven = {
+              downloadSources = true,
             },
-          }
-          return settings
-        end,
+            implementationsCodeLens = {
+              enabled = true,
+            },
+            referencesCodeLens = {
+              enabled = true,
+            },
+            references = {
+              includeDecompiledSources = true,
+            },
+            inlayHints = {
+              parameterNames = {
+                enabled = "all",   -- literals, all, none
+              },
+            },
+            format = {
+              enabled = false,
+              -- settings = {
+              --   profile = "asdf"
+              -- }
+            },
+          },
+          signatureHelp = { enabled = true },
+          completion = {
+            favoriteStaticMembers = {
+              "org.hamcrest.MatcherAssert.assertThat",
+              "org.hamcrest.Matchers.*",
+              "org.hamcrest.CoreMatchers.*",
+              "org.junit.jupiter.api.Assertions.*",
+              "java.util.Objects.requireNonNull",
+              "java.util.Objects.requireNonNullElse",
+              "org.mockito.Mockito.*",
+            },
+          },
+          contentProvider = { preferred = "fernflower" },
+          extendedClientCapabilities = extendedClientCapabilities,
+          sources = {
+            organizeImports = {
+              starThreshold = 9999,
+              staticStarThreshold = 9999,
+            },
+          },
+          codeGeneration = {
+            toString = {
+              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+            },
+            useBlocks = true,
+          },
+        },
         -- How to run jdtls. This can be overridden to a full java command-line
         -- if the Python wrapper script doesn't suffice.
         cmd = { "jdtls" },
