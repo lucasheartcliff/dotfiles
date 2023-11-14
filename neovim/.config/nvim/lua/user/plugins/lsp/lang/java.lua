@@ -139,7 +139,21 @@ return {
 
       local function attach_jdtls()
         local fname = vim.api.nvim_buf_get_name(0)
-
+        local settings = vim.deepcopy(opts.jdtls.settings)
+        settings.java.configuration.runtimes = {
+          {
+            name = "JavaSE-8",
+            path = "~/.sdkman/candidates/java/8.0.362-amzn",
+          },
+          {
+            name = "JavaSE-11",
+            path = "~/.sdkman/candidates/java/11.0.18-amzn",
+          },
+          {
+            name = "JavaSE-17",
+            path = "~/.sdkman/candidates/java/17.0.6-amzn",
+          },
+        }
         -- Configuration can be augmented and overridden by opts.jdtls
         local config = extend_or_override({
           cmd = opts.full_cmd(opts),
@@ -147,6 +161,7 @@ return {
           init_options = {
             bundles = bundles,
           },
+          settings = settings,
           -- enable CMP capabilities
           capabilities = require("cmp_nvim_lsp").default_capabilities(),
         }, opts.jdtls)
