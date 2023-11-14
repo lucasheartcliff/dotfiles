@@ -31,3 +31,7 @@ plug "zsh-users/zsh-syntax-highlighting"
 if [ -n "$PS1" ] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main && 
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

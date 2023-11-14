@@ -16,7 +16,35 @@ return {
     lazy = true,
     version = false, -- last release is way too old
   },
+  {
+    "vuki656/package-info.nvim",
+    lazy = true,
+    config = function()
+      require("package-info").setup()
+      -- Show dependency versions
+      vim.keymap.set({ "n" }, "<LEADER>Ds", require("package-info").show, { silent = true, noremap = true })
 
+      -- Hide dependency versions
+      vim.keymap.set({ "n" }, "<LEADER>Dc", require("package-info").hide, { silent = true, noremap = true })
+
+      -- Toggle dependency versions
+      vim.keymap.set({ "n" }, "<LEADER>Dt", require("package-info").toggle, { silent = true, noremap = true })
+
+      -- Update dependency on the line
+      vim.keymap.set({ "n" }, "<LEADER>Du", require("package-info").update, { silent = true, noremap = true })
+
+      -- Delete dependency on the line
+      vim.keymap.set({ "n" }, "<LEADER>Dd", require("package-info").delete, { silent = true, noremap = true })
+
+      -- Install a new dependency
+      vim.keymap.set({ "n" }, "<LEADER>Di", require("package-info").install, { silent = true, noremap = true })
+
+      -- Install a different dependency version
+      vim.keymap.set({ "n" }, "<LEADER>Dp", require("package-info").change_version, { silent = true, noremap = true })
+
+      require("telescope").load_extension("package_info")
+    end,
+  },
   -- correctly setup lspconfig
   {
     "neovim/nvim-lspconfig",
