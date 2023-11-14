@@ -106,14 +106,14 @@ return {
                   name = "JavaSE-8",
                   path = "~/.sdkman/candidates/java/8.0.362-amzn",
                 },
-                {
-                  name = "JavaSE-11",
-                  path = "~/.sdkman/candidates/java/11.0.18-amzn",
-                },
-                {
-                  name = "JavaSE-17",
-                  path = "~/.sdkman/candidates/java/17.0.6-amzn",
-                },
+                -- {
+                --   name = "JavaSE-11",
+                --   path = "~/.sdkman/candidates/java/11.0.18-amzn",
+                -- },
+                -- {
+                --   name = "JavaSE-17",
+                --   path = "~/.sdkman/candidates/java/17.0.6-amzn",
+                -- },
               },
             },
             maven = {
