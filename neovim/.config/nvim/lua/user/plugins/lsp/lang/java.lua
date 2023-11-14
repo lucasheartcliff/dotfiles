@@ -83,6 +83,24 @@ return {
           return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
         end,
 
+        settings = function(opts)
+          local settings = vim.deepcopy(opts.jdtls.settings)
+          settings.java.configuration.runtimes = {
+            {
+              name = "JavaSE-8",
+              path = "~/.sdkman/candidates/java/8.0.362-amzn",
+            },
+            {
+              name = "JavaSE-11",
+              path = "~/.sdkman/candidates/java/11.0.18-amzn",
+            },
+            {
+              name = "JavaSE-17",
+              path = "~/.sdkman/candidates/java/17.0.6-amzn",
+            },
+          }
+          return settings
+        end,
         -- How to run jdtls. This can be overridden to a full java command-line
         -- if the Python wrapper script doesn't suffice.
         cmd = { "jdtls" },
@@ -139,21 +157,6 @@ return {
 
       local function attach_jdtls()
         local fname = vim.api.nvim_buf_get_name(0)
-        local settings = vim.deepcopy(opts.jdtls.settings)
-        settings.java.configuration.runtimes = {
-          {
-            name = "JavaSE-8",
-            path = "~/.sdkman/candidates/java/8.0.362-amzn",
-          },
-          {
-            name = "JavaSE-11",
-            path = "~/.sdkman/candidates/java/11.0.18-amzn",
-          },
-          {
-            name = "JavaSE-17",
-            path = "~/.sdkman/candidates/java/17.0.6-amzn",
-          },
-        }
         -- Configuration can be augmented and overridden by opts.jdtls
         local config = extend_or_override({
           cmd = opts.full_cmd(opts),
