@@ -100,20 +100,21 @@ return {
               downloadSources = true,
             },
             configuration = {
-              updateBuildConfiguration = "interactive",
+              -- updateBuildConfiguration = "interactive",
               runtimes = {
                 {
-                  name = "JavaSE-8",
-                  path = "~/.sdkman/candidates/java/8.0.362-amzn",
+                  name = "JavaSE-1.8",
+                  path = "~/.sdkman/candidates/java/8.0.362-amzn/",
+                  default = true,
                 },
-                -- {
-                --   name = "JavaSE-11",
-                --   path = "~/.sdkman/candidates/java/11.0.18-amzn",
-                -- },
-                -- {
-                --   name = "JavaSE-17",
-                --   path = "~/.sdkman/candidates/java/17.0.6-amzn",
-                -- },
+                {
+                  name = "JavaSE-11",
+                  path = "~/.sdkman/candidates/java/11.0.18-amzn/",
+                },
+                {
+                  name = "JavaSE-17",
+                  path = "~/.sdkman/candidates/java/17.0.6-amzn/",
+                },
               },
             },
             maven = {
@@ -130,7 +131,7 @@ return {
             },
             inlayHints = {
               parameterNames = {
-                enabled = "all",   -- literals, all, none
+                enabled = "all", -- literals, all, none
               },
             },
             format = {
@@ -153,7 +154,7 @@ return {
             },
           },
           contentProvider = { preferred = "fernflower" },
-          extendedClientCapabilities = extendedClientCapabilities,
+          -- extendedClientCapabilities = extendedClientCapabilities,
           sources = {
             organizeImports = {
               starThreshold = 9999,
@@ -230,7 +231,7 @@ return {
           init_options = {
             bundles = bundles,
           },
-          settings = settings,
+          settings = opts.settings,
           -- enable CMP capabilities
           capabilities = require("cmp_nvim_lsp").default_capabilities(),
         }, opts.jdtls)

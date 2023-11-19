@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo dnf upgrade --refresh
 sudo dnf install -y dnf-plugins-core util-linux-user
 sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
