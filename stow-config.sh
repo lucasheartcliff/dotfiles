@@ -4,7 +4,7 @@ rm -f $HOME/.zshrc
 mv $HOME/.config/ $HOME/.config_old
 
 # Define an array of folders to ignore
-declare -a ignored_folders=("assets" "tools" "font-unicode")
+declare -a ignored_folders=("assets" "tools"  "utils"  "font-unicode")
 
 # Loop through all subdirectories and stow them
 for package in */; do
