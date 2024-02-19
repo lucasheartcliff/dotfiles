@@ -5,7 +5,7 @@ return {
     "L3MON4D3/LuaSnip",
     build = (not jit.os:find("Windows"))
         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-        or nil,
+      or nil,
     dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
@@ -127,12 +127,12 @@ return {
       local plugin = require("lazy.core.config").spec.plugins["mini.surround"]
       local opts = require("lazy.core.plugin").values(plugin, "opts", false)
       local mappings = {
-        { opts.mappings.add,            desc = "Add surrounding",                     mode = { "n", "v" } },
-        { opts.mappings.delete,         desc = "Delete surrounding" },
-        { opts.mappings.find,           desc = "Find right surrounding" },
-        { opts.mappings.find_left,      desc = "Find left surrounding" },
-        { opts.mappings.highlight,      desc = "Highlight surrounding" },
-        { opts.mappings.replace,        desc = "Replace surrounding" },
+        { opts.mappings.add, desc = "Add surrounding", mode = { "n", "v" } },
+        { opts.mappings.delete, desc = "Delete surrounding" },
+        { opts.mappings.find, desc = "Find right surrounding" },
+        { opts.mappings.find_left, desc = "Find left surrounding" },
+        { opts.mappings.highlight, desc = "Highlight surrounding" },
+        { opts.mappings.replace, desc = "Replace surrounding" },
         { opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
       }
       mappings = vim.tbl_filter(function(m)
@@ -142,12 +142,12 @@ return {
     end,
     opts = {
       mappings = {
-        add = "gsa",            -- Add surrounding in Normal and Visual modes
-        delete = "gsd",         -- Delete surrounding
-        find = "gsf",           -- Find surrounding (to the right)
-        find_left = "gsF",      -- Find surrounding (to the left)
-        highlight = "gsh",      -- Highlight surrounding
-        replace = "gsr",        -- Replace surrounding
+        add = "gsa", -- Add surrounding in Normal and Visual modes
+        delete = "gsd", -- Delete surrounding
+        find = "gsf", -- Find surrounding (to the right)
+        find_left = "gsF", -- Find surrounding (to the left)
+        highlight = "gsh", -- Highlight surrounding
+        replace = "gsr", -- Replace surrounding
         update_n_lines = "gsn", -- Update `n_lines`
       },
     },
@@ -169,6 +169,10 @@ return {
         custom_commentstring = function()
           return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
         end,
+      },
+      mappings = {
+        comment_line = "<leader>c/",
+        comment_visual = "<leader>c/",
       },
     },
   },
