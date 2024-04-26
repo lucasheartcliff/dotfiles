@@ -41,3 +41,12 @@ Then, run the command to copy all config files:
 ```sh
 ./stow-config.sh
 ```
+
+## Extras
+
+Sometime the `jdtls` a module installed by mason comes with `lombok.jar` setted without permission to execute, so be aware on use it.
+
+```bash
+chmod 755 $HOME/.local/share/lvim/mason/packages/jdtls/lombok.jar
+```
+
