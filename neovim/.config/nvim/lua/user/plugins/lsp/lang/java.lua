@@ -135,10 +135,11 @@ return {
               },
             },
             format = {
-              enabled = false,
-              -- settings = {
-              --   profile = "asdf"
-              -- }
+              enabled = true,
+              settings = {
+                url = "~/.config/nvim/lua/user/config/formatters/google_java_formatter.xml",
+                profile = "GoogleStyle",
+              },
             },
           },
           signatureHelp = { enabled = true },

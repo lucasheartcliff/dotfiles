@@ -3,6 +3,7 @@ return {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
     lazy = true,
+    enabled = false,
     cmd = "ConformInfo",
     keys = {
       {
@@ -28,6 +29,26 @@ return {
         lua = { "stylua" },
         fish = { "fish_indent" },
         sh = { "shfmt" },
+        python = { "isort", "black" },
+        javascript = { { "prettierd", "prettier" } },
+        typescript = { { "prettierd", "prettier" } },
+        javascriptreact = { { "prettierd", "prettier" } },
+        typescriptreact = { { "prettierd", "prettier" } },
+        json = { { "prettierd", "prettier" } },
+        java = { "google-java-format" },
+        xml = { "xmlformat", "xmllint" },
+        kotlin = { "ktlint" },
+        ruby = { "standardrb" },
+        markdown = { { "prettierd", "prettier" } },
+        erb = { "htmlbeautifier" },
+        html = { "htmlbeautifier" },
+        bash = { "beautysh" },
+        proto = { "buf" },
+        rust = { "rustfmt" },
+        yaml = { "yamlfix" },
+        toml = { "taplo" },
+        css = { { "prettierd", "prettier" } },
+        scss = { { "prettierd", "prettier" } },
       },
       -- LazyVim will merge the options you set here with builtin formatters.
       -- You can also define any custom formatters here.
@@ -52,6 +73,8 @@ return {
           end
         end
       end
+      opts.formatters["google-java-format"].args =
+        { "--style", "~/.config/nvim/lua/user/config/formatters/google_java_formatter.xml" }
       require("conform").setup(opts)
     end,
   },

@@ -17,6 +17,7 @@ plug "zsh-users/zsh-autosuggestions"
 plug "hlissner/zsh-autopair"
 plug "wintermi/zsh-lsd"
 plug "zap-zsh/nvm"
+plug "lucasheartcliff/venv"
 plug "zap-zsh/vim"
 plug "zap-zsh/zap-prompt"
 plug "zap-zsh/fzf"
@@ -33,3 +34,7 @@ if [ -n "$PS1" ] && [ -z "$TMUX" ]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.cargo/env"
+
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
