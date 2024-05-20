@@ -51,6 +51,7 @@ local defaults = {
       Constant = " ",
       Constructor = " ",
       Copilot = " ",
+      Discord = " ",
       Enum = " ",
       EnumMember = " ",
       Event = " ",

@@ -17,6 +17,7 @@ plug "zsh-users/zsh-autosuggestions"
 plug "hlissner/zsh-autopair"
 plug "wintermi/zsh-lsd"
 plug "zap-zsh/nvm"
+plug "lucasheartcliff/venv"
 plug "zap-zsh/vim"
 plug "zap-zsh/zap-prompt"
 plug "zap-zsh/fzf"
@@ -35,3 +36,7 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+. "$HOME/.cargo/env"
+
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
