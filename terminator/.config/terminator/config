@@ -14,9 +14,10 @@
 [profiles]
   [[default]]
     background_color = "#1e1f29"
-    cursor_blink = False
     cursor_color = "#bbbbbb"
-    font = FiraCode Nerd Font 12
+    background_image = None
+    cursor_blink = False
+    font = FiraCode Nerd Font Propo 12
     foreground_color = "#f8f8f2"
     scrollbar_position = hidden
     scrollback_infinite = True
@@ -24,6 +25,7 @@
     login_shell = True
     use_system_font = False
     copy_on_selection = True
+    title_transmit_bg_color = "#813d9c"
   [[terminator_default]]
     background_color = "#282a36"
     foreground_color = "#f8f8f2"
