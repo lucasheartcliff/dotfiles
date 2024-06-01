@@ -4,7 +4,7 @@ sudo apt update
 
 sudo apt install -y build-essential python xclip x11-utils libssl-dev libffi-dev git curl wget zsh make zlib1g-dev \
 	libbz2-dev libreadline-dev libsqlite3-dev terminator tmux stow cmake pkg-config \
-	libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
+	libfontconfig1-dev libxcb-xfixes0-dev python3 libfreetype6-dev libxcb-xfixes0-dev libxkbcommon-dev
 
 sudo snap install intellij-idea-community --classic
 sudo snap install code --classic
