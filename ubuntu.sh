@@ -2,7 +2,9 @@
 sudo add-apt-repository universe
 sudo apt update
 
-sudo apt install -y build-essential python xclip x11-utils libssl-dev libffi-dev git curl wget zsh make zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev terminator tmux stow
+sudo apt install -y build-essential python xclip x11-utils libssl-dev libffi-dev git curl wget zsh make zlib1g-dev \
+	libbz2-dev libreadline-dev libsqlite3-dev terminator tmux stow cmake pkg-config \
+	libfontconfig1-dev libxcb-xfixes0-dev python3 libfreetype6-dev libxcb-xfixes0-dev libxkbcommon-dev
 
 sudo snap install intellij-idea-community --classic
 sudo snap install code --classic
@@ -18,13 +20,6 @@ sudo apt update
 
 sudo apt install -y yarn brave-browser postgresql postgresql-contrib mariadb-server ripgrep
 
-echo '[Desktop Entry]
-    Name=Brave Browser
-    Exec=/usr/bin/brave-browser-stable %U --remote-debugging-port=9222
-    StartupNotify=true
-    Terminal=false
-    Icon=brave-browser
-    Type=Application
-    Categories=Network;WebBrowser;' >>~/.local/share/applications/brave-browser.desktop
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 bash ./tools_install.sh
