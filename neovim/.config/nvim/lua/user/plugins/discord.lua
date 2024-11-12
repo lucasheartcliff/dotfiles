@@ -28,26 +28,4 @@ return {
       })
     end,
   },
-  -- {
-  --   "nvim-lualine/lualine.nvim",
-  --   dependencies = { "andweeb/presence.nvim" },
-  --   optional = true,
-  --   event = "VeryLazy",
-  --   opts = function(_, opts)
-  --     local Util = require("user.util")
-  --
-  --     local presence = require("presence")
-  --
-  --     local connected = presence.get_discord_socket_path(presence)
-  --     table.insert(opts.sections.lualine_x, 2, {
-  --       function()
-  --         return ""
-  --       end,
-  --       cond = function()
-  --         return connected
-  --       end,
-  --       color = Util.fg("Special"),
-  --     })
-  --   end,
-  -- },
 }

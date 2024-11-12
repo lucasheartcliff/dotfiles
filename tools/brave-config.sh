@@ -6,4 +6,4 @@ echo '[Desktop Entry]
     Terminal=false
     Icon=brave-browser
     Type=Application
-    Categories=Network;WebBrowser;' >>~/.local/share/applications/brave-browser.desktop
+    Categories=Network;WebBrowser;' >~/.local/share/applications/brave-browser.desktop
