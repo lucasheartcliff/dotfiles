@@ -290,19 +290,14 @@ set -g mode-keys vi
 # bind C-a send-prefix
 
 # # List of plugins
-# set -g @tpm_plugins '               \
-#     tmux-plugins/tpm                \
-#     tmux-plugins/tmux-sensible      \
-#     tmux-plugins/tmux-yank          \
-#     tmux-plugins/tmux-open          \
-#     tmux-plugins/tmux-cpu           \
-#     chriszarate/tmux-tasks          \
-#     RobertKirk/tmux-ram             \
-#     tmux-plugins/tmux-online-status \
-#     shuber/tmux-git                 \
-# '
-# # tmux-plugins/tmux-resurrect     \
-    # tmux-plugins/tmux-continuum     \
+set -g @tpm_plugins '               \
+    tmux-plugins/tpm                \
+    tmux-plugins/tmux-resurrect     \
+'
+
+# Initialize TMUX plugin manager
+run -b '~/.tmux/plugins/tpm/tpm'
+
 # tmux-tasks plugin configuration
 # Task manager
 set -g @tasks_manager 'taskwarrior'
