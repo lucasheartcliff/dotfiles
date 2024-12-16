@@ -1,6 +1,6 @@
 return {
   {
-    'Mofiqul/dracula.nvim',
+    'lucasheartcliff/dracula.nvim',
     lazy = true,
     init = function()
       local colorscheme = "dracula"
