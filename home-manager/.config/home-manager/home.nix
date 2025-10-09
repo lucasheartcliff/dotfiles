@@ -29,26 +29,40 @@
     pkgs.asdf-vm
     pkgs.yarn
     pkgs.nodejs
+    pkgs.docker
+    pkgs.docker-compose
+    pkgs.pyenv
     pkgs.zsh
     pkgs.stow
-
-
+    pkgs.brave
+    pkgs.flameshot
+    pkgs.lazygit
+    pkgs.vscode
+    pkgs.tmux
+    pkgs.lsd
+    pkgs.alacritty
+    pkgs.xclip
+    pkgs.gnumake
+    pkgs.cmatrix
+    pkgs.nerd-fonts.fira-code
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
+    # (pkgs.nerdfonts.override { fonts = [ "FiraCode Nerd Font" ]; })
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+  ];
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "vscode"
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
