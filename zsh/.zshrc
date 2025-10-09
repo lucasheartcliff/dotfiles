@@ -16,7 +16,7 @@ plug "esc/conda-zsh-completion"
 plug "zsh-users/zsh-autosuggestions"
 plug "hlissner/zsh-autopair"
 plug "wintermi/zsh-lsd"
-plug "zap-zsh/nvm"
+# plug "zap-zsh/nvm"
 plug "lucasheartcliff/venv"
 plug "zap-zsh/vim"
 plug "zap-zsh/zap-prompt"
@@ -29,14 +29,13 @@ plug "zsh-users/zsh-syntax-highlighting"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 
-if [ -n "$PS1" ] && [ -z "$TMUX" ]; then
-  exec tmux new-session -A -s main && 
-fi
+# if [ -n "$PS1" ] && [ -z "$TMUX" ]; then
+#   exec tmux new-session -A -s main && 
+# fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
-export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit

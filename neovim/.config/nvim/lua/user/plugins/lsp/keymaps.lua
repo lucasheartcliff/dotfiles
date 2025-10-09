@@ -40,13 +40,13 @@ function M.get()
       "References"
     },
     {
-      "gD",
+      "gd",
       vim.lsp.buf.declaration,
       desc =
       "Goto Declaration"
     },
     {
-      "gI",
+      "gi",
       function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end,
       desc =
       "Goto Implementation"
