@@ -37,9 +37,11 @@
     pkgs.brave
     pkgs.flameshot
     pkgs.lazygit
-    pkgs.vscode
     pkgs.tmux
+    pkgs.codex
+    pkgs.vscode
     pkgs.lsd
+    pkgs.act
     pkgs.kitty
     pkgs.xclip
     pkgs.gnumake
