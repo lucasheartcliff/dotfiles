@@ -11,7 +11,7 @@
     git neovim tmux lazygit fzf lsd ripgrep fd bat delta act gnumake
     nodejs yarn pyenv docker docker-compose vscode brave htop curl wget
     stow xclip neofetch cmatrix flameshot kitty alacritty
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    nerd-fonts.fira-code
   ];
 
   programs.fish = {
