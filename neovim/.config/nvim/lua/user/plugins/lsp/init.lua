@@ -206,9 +206,9 @@ return {
     event = "LazyFile",
     dependencies = { "mason.nvim" },
     opts = function()
-      local nls = require("null-ls")
+      local nls = require("none-ls")
       return {
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+        root_dir = require("none-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
         sources = {
           nls.builtins.formatting.fish_indent,
           nls.builtins.diagnostics.fish,

@@ -29,7 +29,7 @@ return {
     optional = true,
     opts = function(_, opts)
       if type(opts.sources) == "table" then
-        local null_ls = require("null-ls")
+        local null_ls = require("none-ls")
         vim.list_extend(opts.sources, {
           null_ls.builtins.formatting.terraform_fmt,
           null_ls.builtins.diagnostics.terraform_validate,

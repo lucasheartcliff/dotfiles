@@ -73,8 +73,9 @@ return {
           end
         end
       end
+      local config_path = vim.fn.stdpath("config") .. "/lua/user/config/formatters/google_java_formatter.xml"
       opts.formatters["google-java-format"].args =
-        { "--style", "~/.config/nvim/lua/user/config/formatters/google_java_formatter.xml" }
+      { "--style", config_path }
       require("conform").setup(opts)
     end,
   },

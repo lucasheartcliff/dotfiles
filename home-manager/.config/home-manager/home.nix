@@ -1,160 +1,135 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "lucasmorais";
   home.homeDirectory = "/home/lucasmorais";
+  home.stateVersion = "25.05";
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
+  nixpkgs.config.allowUnfree = true;
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = [
-    pkgs.htop
-    pkgs.git
-    pkgs.curl
-    pkgs.wget
-    pkgs.neofetch
-    pkgs.ripgrep
-    pkgs.fzf
-    pkgs.neovim
-    pkgs.asdf-vm
-    pkgs.yarn
-    pkgs.nodejs
-    pkgs.docker
-    pkgs.docker-compose
-    pkgs.pyenv
-    pkgs.zsh
-    pkgs.stow
-    pkgs.brave
-    pkgs.flameshot
-    pkgs.lazygit
-    pkgs.tmux
-    pkgs.codex
-    pkgs.vscode
-    pkgs.lsd
-    pkgs.act
-    pkgs.kitty
-    pkgs.xclip
-    pkgs.gnumake
-    pkgs.cmatrix
-    pkgs.nerd-fonts.fira-code
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FiraCode Nerd Font" ]; })
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+  home.packages = with pkgs; [
+    git neovim tmux lazygit fzf lsd ripgrep fd bat delta act gnumake
+    nodejs yarn pyenv docker docker-compose vscode brave htop curl wget
+    stow xclip neofetch cmatrix flameshot kitty alacritty
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "vscode"
-  ];
-
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      set fish_greeting
+      set -gx EDITOR nvim
+      set -gx VISUAL nvim
+      set -gx PATH $HOME/.local/bin $PATH
+      set -gx PATH $HOME/.cargo/bin $PATH
+      set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
+      set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+    '';
+    shellAbbrs = {
+      g = "git"; ga = "git add"; gc = "git commit"; gco = "git checkout";
+      gp = "git push"; gl = "git pull"; gs = "git status"; gd = "git diff"; glg = "lazygit";
+      ".." = "cd .."; "..." = "cd ../.."; "...." = "cd ../../..";
+      ls = "lsd"; ll = "lsd -l"; la = "lsd -la"; lt = "lsd --tree";
+      v = "nvim"; vim = "nvim";
+      d = "docker"; dc = "docker-compose"; dps = "docker ps"; dimg = "docker images";
+      c = "clear";
+    };
+    plugins = [
+      { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
+      { name = "done"; src = pkgs.fishPlugins.done.src; }
+    ];
   };
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/lucasmorais/etc/profile.d/hm-session-vars.sh
-  #
+  programs.git = {
+    enable = true;
+    userName = "Lucas Morais";
+    userEmail = "your.email@example.com";
+    aliases = { co = "checkout"; br = "branch"; ci = "commit"; st = "status"; };
+    extraConfig = {
+      init.defaultBranch = "main";
+      core.editor = "nvim";
+      pull.rebase = false;
+      push.autoSetupRemote = true;
+    };
+    delta = {
+      enable = true;
+      options = { navigate = true; line-numbers = true; syntax-theme = "Dracula"; };
+    };
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      env.TERM = "xterm-256color";
+      window.opacity = 0.95;
+      window.padding = { x = 10; y = 10; };
+      font = { normal.family = "FiraCode Nerd Font"; size = 12.0; };
+      colors.primary = { background = "#282a36"; foreground = "#f8f8f2"; };
+    };
+  };
+
+  programs.tmux = {
+    enable = true;
+    terminal = "screen-256color";
+    keyMode = "vi";
+    prefix = "C-a";
+    mouse = true;
+    escapeTime = 0;
+    baseIndex = 1;
+    plugins = with pkgs.tmuxPlugins; [ sensible yank vim-tmux-navigator ];
+    extraConfig = ''
+      bind | split-window -h
+      bind - split-window -v
+      bind r source-file ~/.config/tmux/tmux.conf
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+    '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+    defaultCommand = "fd --type f --hidden --follow --exclude .git";
+    defaultOptions = [ "--height 40%" "--layout=reverse" "--border" "--inline-info" ];
+  };
+
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      add_newline = true;
+      character = { success_symbol = "[➜](bold green)"; error_symbol = "[➜](bold red)"; };
+      git_branch.symbol = " ";
+      nodejs.symbol = " ";
+      python.symbol = " ";
+      rust.symbol = " ";
+    };
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      gui.theme = {
+        lightTheme = false;
+        activeBorderColor = [ "green" "bold" ];
+        inactiveBorderColor = [ "white" ];
+        selectedLineBgColor = [ "blue" ];
+      };
+      git.paging = { colorArg = "always"; pager = "delta --dark --paging=never"; };
+    };
+  };
+
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    TERMINAL = "alacritty";
+    BROWSER = "brave";
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  # programs.kitty.enable = true; # required for the default Hyprland config
-  # wayland.windowManager.hyprland.enable = true; # enable Hyprland
-  #
-  # # Optional, hint Electron apps to use Wayland:
-  # # home.sessionVariables.NIXOS_OZONE_WL = "1";
-  # #
-  #  wayland.windowManager.hyprland.settings = {
-  #   "$mod" = "SUPER";
-  #   bind =
-  #     [
-  #       "$mod, F, exec, firefox"
-  #       ", Print, exec, grimblast copy area"
-  #     ]
-  #     ++ (
-  #       # workspaces
-  #       # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-  #       builtins.concatLists (builtins.genList (i:
-  #           let ws = i + 1;
-  #           in [
-  #             "$mod, code:1${toString i}, workspace, ${toString ws}"
-  #             "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-  #           ]
-  #         )
-  #         9)
-  #     );
-  # };
-  # wayland.windowManager.hyprland.systemd.variables = ["--all"];
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   # x11.enable = true;
-  #   package = pkgs.bibata-cursors;
-  #   name = "Bibata-Modern-Classic";
-  #   size = 16;
-  # };
-  #
-  # gtk = {
-  #   enable = true;
-  #
-  #   theme = {
-  #     package = pkgs.flat-remix-gtk;
-  #     name = "Flat-Remix-GTK-Grey-Darkest";
-  #   };
-  #
-  #   iconTheme = {
-  #     package = pkgs.adwaita-icon-theme;
-  #     name = "Adwaita";
-  #   };
-  #
-  #   font = {
-  #     name = "Sans";
-  #     size = 11;
-  #   };
-  # };
 }

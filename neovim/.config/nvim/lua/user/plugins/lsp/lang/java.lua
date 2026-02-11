@@ -137,7 +137,7 @@ return {
             format = {
               enabled = true,
               settings = {
-                url = "~/.config/nvim/lua/user/config/formatters/google_java_formatter.xml",
+                url = vim.fn.stdpath("config") .. "/lua/user/config/formatters/google_java_formatter.xml",
                 profile = "GoogleStyle",
               },
             },

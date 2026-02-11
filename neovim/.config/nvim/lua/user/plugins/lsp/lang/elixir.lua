@@ -36,7 +36,7 @@ return {
       if vim.fn.executable("credo") == 0 then
         return
       end
-      local nls = require("null-ls")
+      local nls = require("none-ls")
       opts.sources = opts.sources or {}
       vim.list_extend(opts.sources, {
         nls.builtins.diagnostics.credo,

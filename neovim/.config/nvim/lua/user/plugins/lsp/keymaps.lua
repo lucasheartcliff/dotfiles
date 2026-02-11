@@ -40,7 +40,7 @@ function M.get()
       "References"
     },
     {
-      "gd",
+      "gD",
       vim.lsp.buf.declaration,
       desc =
       "Goto Declaration"
