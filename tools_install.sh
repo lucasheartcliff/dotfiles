@@ -20,6 +20,4 @@ for script in "$directory"*.sh; do
 done
 
 bash font-unicode/init.sh
-bash alacritty/init.sh
-
 echo "All scripts have been executed."

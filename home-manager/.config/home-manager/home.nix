@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     git neovim tmux lazygit fzf lsd ripgrep fd bat delta act gnumake
     nodejs yarn pyenv docker docker-compose vscode brave htop curl wget
-    stow xclip neofetch cmatrix flameshot kitty alacritty
+    stow xclip neofetch cmatrix flameshot
     nerd-fonts.fira-code
   ];
 
@@ -24,6 +24,37 @@
       set -gx PATH $HOME/.cargo/bin $PATH
       set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
       set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+      if test -f $HOME/asdf/asdf.fish
+        set -gx ASDF_DATA_DIR $HOME/asdf
+        source $HOME/asdf/asdf.fish
+        if not test -d $HOME/.config/fish/completions
+          mkdir -p $HOME/.config/fish/completions
+        end
+        if not test -f $HOME/.config/fish/completions/asdf.fish
+          asdf completion fish > $HOME/.config/fish/completions/asdf.fish
+        end
+      end
+
+      # JAVA 21 (used by jdtls / Neovim)
+      set -l java21_candidates \
+        $JAVA21_HOME \
+        $JDK21_HOME \
+        /usr/lib/jvm/java-21-openjdk-amd64 \
+        /usr/lib/jvm/java-1.21.0-openjdk-amd64 \
+        /usr/lib/jvm/default-java \
+        $HOME/.sdkman/candidates/java/current
+
+      for java_home in $java21_candidates
+        if test -n "$java_home"; and test -x "$java_home/bin/java"
+          if "$java_home/bin/java" -version 2>&1 | string match -qr 'version "21'
+            set -gx JAVA21_HOME "$java_home"
+            break
+          end
+        end
+      end
+      if set -q JAVA21_HOME
+        set -gx JAVA_HOME "$JAVA21_HOME"
+      end
     '';
     shellAbbrs = {
       g = "git"; ga = "git add"; gc = "git commit"; gco = "git checkout";
@@ -54,17 +85,6 @@
     delta = {
       enable = true;
       options = { navigate = true; line-numbers = true; syntax-theme = "Dracula"; };
-    };
-  };
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      env.TERM = "xterm-256color";
-      window.opacity = 0.95;
-      window.padding = { x = 10; y = 10; };
-      font = { normal.family = "FiraCode Nerd Font"; size = 12.0; };
-      colors.primary = { background = "#282a36"; foreground = "#f8f8f2"; };
     };
   };
 

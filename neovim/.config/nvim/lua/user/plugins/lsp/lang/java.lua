@@ -1,8 +1,77 @@
 local Util = require("user.util")
 
--- This is the same as in lspconfig.server_configurations.jdtls, but avoids
--- needing to require that when this module loads.
 local java_filetypes = { "java" }
+local java_home_cache = {}
+
+local function java_major_from_home(java_home)
+  if not java_home or java_home == "" then
+    return nil
+  end
+  local java_bin = vim.fs.joinpath(java_home, "bin", "java")
+  if vim.fn.executable(java_bin) == 0 then
+    return nil
+  end
+  local out = vim.fn.system({ java_bin, "-version" })
+  if vim.v.shell_error ~= 0 then
+    return nil
+  end
+  return tonumber(out:match('version%s+"(%d+)'))
+end
+
+local function find_java_home_for_major(target_major)
+  if java_home_cache[target_major] ~= nil then
+    return java_home_cache[target_major] or nil
+  end
+
+  local candidates = {}
+  local function add_candidate(path)
+    if path and path ~= "" then
+      table.insert(candidates, path)
+    end
+  end
+
+  add_candidate(vim.env.JAVA21_HOME)
+  add_candidate(vim.env.JDK21_HOME)
+  add_candidate(vim.env.JAVA_HOME)
+  add_candidate("~/.sdkman/candidates/java/current")
+
+  vim.list_extend(candidates, vim.fn.glob("~/.sdkman/candidates/java/*", false, true))
+  vim.list_extend(candidates, vim.fn.glob("~/.asdf/installs/java/*", false, true))
+  vim.list_extend(candidates, vim.fn.glob("/usr/lib/jvm/*", false, true))
+
+  local seen = {}
+  for _, candidate in ipairs(candidates) do
+    local expanded = vim.fn.expand(candidate)
+    local realpath = vim.uv.fs_realpath(expanded) or expanded
+    if realpath and realpath ~= "" and not seen[realpath] then
+      seen[realpath] = true
+      if java_major_from_home(realpath) == target_major then
+        java_home_cache[target_major] = realpath
+        return realpath
+      end
+    end
+  end
+
+  java_home_cache[target_major] = false
+  return nil
+end
+
+local function java_root_dir(fname)
+  local util = require("lspconfig.util")
+  local root_files = {
+    { ".git", "build.gradle", "build.gradle.kts" },
+    { "build.xml", "pom.xml", "settings.gradle", "settings.gradle.kts" },
+  }
+
+  for _, patterns in ipairs(root_files) do
+    local root = util.root_pattern(unpack(patterns))(fname)
+    if root then
+      return root
+    end
+  end
+
+  return util.path.dirname(fname)
+end
 
 -- Utility function to extend or override a config table, similar to the way
 -- that Plugin.opts works.
@@ -74,7 +143,7 @@ return {
       return {
         -- How to find the root dir for a given filename. The default comes from
         -- lspconfig which provides a function specifically for java projects.
-        root_dir = require("lspconfig.server_configurations.jdtls").default_config.root_dir,
+        root_dir = java_root_dir,
 
         -- How to find the project name for a given root dir.
         project_name = function(root_dir)
@@ -98,24 +167,6 @@ return {
             -- },
             eclipse = {
               downloadSources = true,
-            },
-            configuration = {
-              -- updateBuildConfiguration = "interactive",
-              runtimes = {
-                {
-                  name = "JavaSE-1.8",
-                  path = "~/.sdkman/candidates/java/8.0.362-amzn/",
-                  default = true,
-                },
-                {
-                  name = "JavaSE-11",
-                  path = "~/.sdkman/candidates/java/11.0.18-amzn/",
-                },
-                {
-                  name = "JavaSE-17",
-                  path = "~/.sdkman/candidates/java/17.0.6-amzn/",
-                },
-              },
             },
             maven = {
               downloadSources = true,
@@ -155,7 +206,6 @@ return {
             },
           },
           contentProvider = { preferred = "fernflower" },
-          -- extendedClientCapabilities = extendedClientCapabilities,
           sources = {
             organizeImports = {
               starThreshold = 9999,
@@ -169,6 +219,14 @@ return {
             useBlocks = true,
           },
         },
+        extendedClientCapabilities = extendedClientCapabilities,
+        jdtls_cmd_env = function()
+          local java21_home = find_java_home_for_major(21)
+          if java21_home then
+            return { JAVA_HOME = java21_home }
+          end
+          return nil
+        end,
         -- How to run jdtls. This can be overridden to a full java command-line
         -- if the Python wrapper script doesn't suffice.
         cmd = { "jdtls" },
@@ -177,10 +235,14 @@ return {
           local root_dir = opts.root_dir(fname)
           local project_name = opts.project_name(root_dir)
           local cmd = vim.deepcopy(opts.cmd)
-          local lombok_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/") .. "packages/jdtls/lombok.jar"
+          local lombok_path = vim.fn.stdpath("data") .. "/mason/packages/jdtls/lombok.jar"
           if project_name then
+            if vim.uv.fs_stat(lombok_path) then
+              vim.list_extend(cmd, {
+                "--jvm-arg=-javaagent:" .. lombok_path,
+              })
+            end
             vim.list_extend(cmd, {
-              "--jvm-arg=-javaagent:" .. lombok_path,
               "-configuration",
               opts.jdtls_config_dir(project_name),
               "-data",
@@ -225,16 +287,22 @@ return {
 
       local function attach_jdtls()
         local fname = vim.api.nvim_buf_get_name(0)
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+        if has_cmp then
+          capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+        end
         -- Configuration can be augmented and overridden by opts.jdtls
         local config = extend_or_override({
           cmd = opts.full_cmd(opts),
           root_dir = opts.root_dir(fname),
           init_options = {
             bundles = bundles,
+            extendedClientCapabilities = opts.extendedClientCapabilities,
           },
           settings = opts.settings,
-          -- enable CMP capabilities
-          capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          capabilities = capabilities,
+          cmd_env = opts.jdtls_cmd_env and opts.jdtls_cmd_env() or nil,
         }, opts.jdtls)
 
         -- Existing server will be reused if the root_dir matches.

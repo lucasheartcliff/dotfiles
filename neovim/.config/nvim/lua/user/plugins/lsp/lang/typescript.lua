@@ -16,8 +16,8 @@ return {
     opts = {
       -- make sure mason installs the server
       servers = {
-        ---@type lspconfig.options.tsserver
-        tsserver = {
+        ---@type lspconfig.options.ts_ls
+        ts_ls = {
           keys = {
             {
               "<leader>co",
@@ -25,7 +25,7 @@ return {
                 vim.lsp.buf.code_action({
                   apply = true,
                   context = {
-                    only = { "source.organizeImports.ts" },
+                    only = { "source.organizeImports" },
                     diagnostics = {},
                   },
                 })

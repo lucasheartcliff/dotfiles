@@ -38,6 +38,40 @@ fi
 
 log_info "Detected OS: $OS"
 
+install_kitty_system() {
+    if command -v kitty &> /dev/null; then
+        log_info "Kitty already installed"
+        return
+    fi
+
+    log_info "Installing Kitty (system package)..."
+    case "$OS" in
+        ubuntu|debian|pop|linuxmint)
+            sudo apt update
+            sudo apt install -y kitty
+            ;;
+        fedora|rhel|centos)
+            sudo dnf install -y kitty
+            ;;
+        arch|manjaro|endeavouros)
+            sudo pacman -Sy --noconfirm kitty
+            ;;
+        *)
+            if [[ "${ID_LIKE:-}" == *debian* ]]; then
+                sudo apt update
+                sudo apt install -y kitty
+            elif [[ "${ID_LIKE:-}" == *rhel* ]] || [[ "${ID_LIKE:-}" == *fedora* ]]; then
+                sudo dnf install -y kitty
+            elif [[ "${ID_LIKE:-}" == *arch* ]]; then
+                sudo pacman -Sy --noconfirm kitty
+            else
+                log_warn "Unsupported OS for Kitty install: $OS"
+                log_warn "Install Kitty manually if needed"
+            fi
+            ;;
+    esac
+}
+
 # Install Nix if not already installed
 if ! command -v nix &> /dev/null; then
     log_info "Installing Nix package manager..."
@@ -50,8 +84,11 @@ if ! command -v nix &> /dev/null; then
     
     log_info "Nix installed successfully"
 else
-    log_info "Nix already installed"
+log_info "Nix already installed"
 fi
+
+# Install Kitty from system packages (avoid Nix GL issues)
+install_kitty_system
 
 # Install Home Manager if not already installed
 if ! command -v home-manager &> /dev/null; then

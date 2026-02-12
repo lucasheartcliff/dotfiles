@@ -74,7 +74,7 @@ return {
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
         -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
+        -- ts_ls = function(_, opts)
         --   require("typescript").setup({ server = opts })
         --   return true
         -- end,
@@ -190,9 +190,9 @@ return {
         mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
       end
 
-      if Util.lsp_get_config("denols") and Util.lsp_get_config("tsserver") then
+      if Util.lsp_get_config("denols") and Util.lsp_get_config("ts_ls") then
         local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-        Util.lsp_disable("tsserver", is_deno)
+        Util.lsp_disable("ts_ls", is_deno)
         Util.lsp_disable("denols", function(root_dir)
           return not is_deno(root_dir)
         end)

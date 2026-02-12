@@ -31,7 +31,6 @@ This will:
 
 These scripts were previously used to manually install:
 
-- `alacritty.sh` - Alacritty terminal emulator (now managed by Nix)
 - `brave-config.sh` - Brave browser setup (now managed by Nix)
 - `fzf.sh` - Fuzzy finder (now managed by Nix)
 - `git-config.sh` - Git configuration (now in home.nix)

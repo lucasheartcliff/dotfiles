@@ -34,7 +34,7 @@ Modern, declarative dotfiles configuration using Nix Home Manager and Fish shell
 - **lsd** - Modern ls replacement with icons
 - **ripgrep** - Fast text search tool
 - **bat** - Cat clone with syntax highlighting
-- **Alacritty** - GPU-accelerated terminal emulator
+- **Kitty** - GPU-accelerated terminal emulator
 - **Starship** - Cross-shell prompt
 - **direnv** - Directory-based environment management
 
@@ -162,7 +162,7 @@ dotfiles/
 │   └── .config/nvim/     # (stowed to ~/.config/nvim)
 ├── tmux/                 # Tmux configuration
 ├── zsh/                  # ZSH configuration (legacy)
-├── alacritty/            # Alacritty terminal config
+├── kitty/                # Kitty terminal config
 └── tools/                # Archived manual installation scripts
 ```
 

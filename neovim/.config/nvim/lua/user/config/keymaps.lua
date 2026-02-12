@@ -92,6 +92,26 @@ if not Util.has("trouble.nvim") then
   map("n", "]q", vim.cmd.cnext, { desc = "Next quickfix" })
 end
 
+-- logs and diagnostics tooling
+map("n", "<leader>vm", "<cmd>messages<cr>", { desc = "Messages" })
+map("n", "<leader>vh", "<cmd>checkhealth<cr>", { desc = "Health (All)" })
+map("n", "<leader>vc", "<cmd>checkhealth lspconfig<cr>", { desc = "Health (LSP)" })
+map("n", "<leader>vC", "<cmd>checkhealth mason<cr>", { desc = "Health (Mason)" })
+map("n", "<leader>vi", "<cmd>LspInfo<cr>", { desc = "LSP Info" })
+map("n", "<leader>vl", function()
+  local log_path = vim.lsp.get_log_path()
+  vim.cmd("tabnew " .. vim.fn.fnameescape(log_path))
+end, { desc = "LSP Log File" })
+map("n", "<leader>vy", "<cmd>Lazy log<cr>", { desc = "Lazy Log" })
+map("n", "<leader>vM", "<cmd>MasonLog<cr>", { desc = "Mason Log" })
+map("n", "<leader>vj", function()
+  if vim.fn.exists(":JdtShowLogs") == 2 then
+    vim.cmd("JdtShowLogs")
+    return
+  end
+  vim.notify("JdtShowLogs is unavailable. Open a Java file first.", vim.log.levels.WARN)
+end, { desc = "JDTLS Log" })
+
 -- formatting
 map({ "n", "v" }, "<leader>cf", function()
   require("user.plugins.lsp.format").format({ force = true })
