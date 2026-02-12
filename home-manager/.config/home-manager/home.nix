@@ -57,17 +57,32 @@
       end
     '';
     shellAbbrs = {
-      g = "git"; ga = "git add"; gc = "git commit"; gco = "git checkout";
-      gp = "git push"; gl = "git pull"; gs = "git status"; gd = "git diff"; glg = "lazygit";
+      g = "git"; ga = "git add"; gaa = "git add --all"; gap = "git add --patch";
+      gb = "git branch"; gba = "git branch -a";
+      gc = "git commit"; gca = "git commit --amend"; gcan = "git commit --amend --no-edit";
+      gco = "git checkout"; gcb = "git checkout -b"; gcm = "git checkout main";
+      gd = "git diff"; gds = "git diff --staged";
+      gf = "git fetch"; gfa = "git fetch --all --prune";
+      gl = "git pull"; glog = "git log --oneline --graph --decorate --all";
+      gp = "git push"; gpf = "git push --force-with-lease";
+      gr = "git restore"; grs = "git restore --staged";
+      gs = "git status"; gsw = "git switch"; gswm = "git switch main"; gt = "git tag";
+      glg = "lazygit";
       ".." = "cd .."; "..." = "cd ../.."; "...." = "cd ../../..";
       ls = "lsd"; ll = "lsd -l"; la = "lsd -la"; lt = "lsd --tree";
+      cat = "bat --style=plain"; grep = "rg"; find = "fd";
       v = "nvim"; vim = "nvim";
       d = "docker"; dc = "docker-compose"; dps = "docker ps"; dimg = "docker images";
-      c = "clear";
+      dcu = "docker-compose up -d"; dcd = "docker-compose down";
+      dcl = "docker-compose logs -f"; dce = "docker-compose exec";
+      h = "history"; md = "mkdir -p"; c = "clear";
     };
     plugins = [
       { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
       { name = "done"; src = pkgs.fishPlugins.done.src; }
+      { name = "autopair"; src = pkgs.fishPlugins.autopair.src; }
+      { name = "fish-git-abbr"; src = pkgs.fishPlugins.git-abbr.src; }
+      { name = "fish-you-should-use"; src = pkgs.fishPlugins.fish-you-should-use.src; }
     ];
   };
 
