@@ -9,12 +9,19 @@ local M = {}
 function M.get_signs(buf, lnum)
   -- Get regular signs
   ---@type Sign[]
-  local signs = vim.tbl_map(function(sign)
-    ---@type Sign
-    local ret = vim.fn.sign_getdefined(sign.name)[1]
-    ret.priority = sign.priority
-    return ret
-  end, vim.fn.sign_getplaced(buf, { group = "*", lnum = lnum })[1].signs)
+  local signs = {}
+  local placed = vim.fn.sign_getplaced(buf, { group = "*", lnum = lnum })
+  local placed_signs = (placed[1] and placed[1].signs) or {}
+  for _, sign in ipairs(placed_signs) do
+    local defined = vim.fn.sign_getdefined(sign.name)
+    local ret = defined and defined[1] or nil
+    signs[#signs + 1] = {
+      name = (ret and ret.name) or sign.name or "",
+      text = (ret and ret.text) or sign.text or "",
+      texthl = (ret and ret.texthl) or sign.texthl or "",
+      priority = sign.priority or (ret and ret.priority) or 0,
+    }
+  end
 
   -- Get extmark signs
   local extmarks = vim.api.nvim_buf_get_extmarks(
@@ -25,11 +32,12 @@ function M.get_signs(buf, lnum)
     { details = true, type = "sign" }
   )
   for _, extmark in pairs(extmarks) do
+    local details = extmark[4] or {}
     signs[#signs + 1] = {
-      name = extmark[4].sign_hl_group or "",
-      text = extmark[4].sign_text,
-      texthl = extmark[4].sign_hl_group,
-      priority = extmark[4].priority,
+      name = details.sign_hl_group or "",
+      text = details.sign_text or "",
+      texthl = details.sign_hl_group or "",
+      priority = details.priority or 0,
     }
   end
 

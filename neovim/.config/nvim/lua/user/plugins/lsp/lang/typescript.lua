@@ -70,6 +70,10 @@ return {
     },
     opts = function()
       local dap = require("dap")
+      local js_debug_path = require("user.util").mason_package_path("js-debug-adapter")
+      if not js_debug_path then
+        return
+      end
       if not dap.adapters["pwa-node"] then
         require("dap").adapters["pwa-node"] = {
           type = "server",
@@ -77,10 +81,8 @@ return {
           port = "${port}",
           executable = {
             command = "node",
-            -- 💀 Make sure to update this path to point to your installation
             args = {
-              require("mason-registry").get_package("js-debug-adapter"):get_install_path()
-                .. "/js-debug/src/dapDebugServer.js",
+              js_debug_path .. "/js-debug/src/dapDebugServer.js",
               "${port}",
             },
           },

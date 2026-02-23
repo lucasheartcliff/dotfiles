@@ -170,7 +170,15 @@ return {
       local have_mason, mlsp = pcall(require, "mason-lspconfig")
       local all_mslp_servers = {}
       if have_mason then
-        all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+        local ok_new_mappings, mappings = pcall(require, "mason-lspconfig.mappings")
+        if ok_new_mappings and type(mappings.get_mason_map) == "function" then
+          all_mslp_servers = vim.tbl_keys(mappings.get_mason_map().lspconfig_to_package or {})
+        else
+          local ok_old_mappings, old_mappings = pcall(require, "mason-lspconfig.mappings.server")
+          if ok_old_mappings then
+            all_mslp_servers = vim.tbl_keys(old_mappings.lspconfig_to_package or {})
+          end
+        end
       end
 
       local ensure_installed = {} ---@type string[]

@@ -105,24 +105,20 @@ return {
         "williamboman/mason.nvim",
         opts = function(_, opts)
           opts.ensure_installed = opts.ensure_installed or {}
-          vim.list_extend(opts.ensure_installed, { "java-test", "java-debug-adapter" })
+          vim.list_extend(opts.ensure_installed, { "jdtls", "java-test", "java-debug-adapter" })
         end,
       },
     },
   },
 
-  -- Configure nvim-lspconfig to install the server automatically via mason, but
-  -- defer actually starting it to our configuration of nvim-jtdls below.
+  -- nvim-jdtls owns the full jdtls lifecycle. We intentionally avoid
+  -- configuring jdtls via nvim-lspconfig to prevent duplicate clients.
   {
     "neovim/nvim-lspconfig",
     opts = {
-      -- make sure mason installs the server
-      servers = {
-        jdtls = {},
-      },
       setup = {
         jdtls = function()
-          return true -- avoid duplicate servers
+          return true
         end,
       },
     },
@@ -227,6 +223,17 @@ return {
           end
           return nil
         end,
+        jdtls_java_executable = function()
+          local java21_home = find_java_home_for_major(21)
+          if not java21_home then
+            return nil
+          end
+          local java_executable = vim.fs.joinpath(java21_home, "bin", "java")
+          if vim.fn.executable(java_executable) == 1 then
+            return java_executable
+          end
+          return nil
+        end,
         -- How to run jdtls. This can be overridden to a full java command-line
         -- if the Python wrapper script doesn't suffice.
         cmd = { "jdtls" },
@@ -235,6 +242,10 @@ return {
           local root_dir = opts.root_dir(fname)
           local project_name = opts.project_name(root_dir)
           local cmd = vim.deepcopy(opts.cmd)
+          local java_executable = opts.jdtls_java_executable and opts.jdtls_java_executable() or nil
+          if java_executable then
+            vim.list_extend(cmd, { "--java-executable", java_executable })
+          end
           local lombok_path = vim.fn.stdpath("data") .. "/mason/packages/jdtls/lombok.jar"
           if project_name then
             if vim.uv.fs_stat(lombok_path) then
@@ -265,18 +276,21 @@ return {
       local mason_registry = require("mason-registry")
       local bundles = {} ---@type string[]
       if opts.dap and Util.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
-        local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
-        local java_dbg_path = java_dbg_pkg:get_install_path()
-        local jar_patterns = {
-          java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
-        }
+        local jar_patterns = {}
+        local java_dbg_path = Util.mason_package_path("java-debug-adapter")
+        if java_dbg_path then
+          vim.list_extend(jar_patterns, {
+            java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
+          })
+        end
         -- java-test also depends on java-debug-adapter.
         if opts.test and mason_registry.is_installed("java-test") then
-          local java_test_pkg = mason_registry.get_package("java-test")
-          local java_test_path = java_test_pkg:get_install_path()
-          vim.list_extend(jar_patterns, {
-            java_test_path .. "/extension/server/*.jar",
-          })
+          local java_test_path = Util.mason_package_path("java-test")
+          if java_test_path then
+            vim.list_extend(jar_patterns, {
+              java_test_path .. "/extension/server/*.jar",
+            })
+          end
         end
         for _, jar_pattern in ipairs(jar_patterns) do
           for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do

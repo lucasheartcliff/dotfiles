@@ -27,6 +27,9 @@
       if test -f $HOME/asdf/asdf.fish
         set -gx ASDF_DATA_DIR $HOME/asdf
         source $HOME/asdf/asdf.fish
+        if test -f $HOME/asdf/plugins/java/set-java-home.fish
+          source $HOME/asdf/plugins/java/set-java-home.fish
+        end
         if not test -d $HOME/.config/fish/completions
           mkdir -p $HOME/.config/fish/completions
         end
@@ -34,28 +37,7 @@
           asdf completion fish > $HOME/.config/fish/completions/asdf.fish
         end
       end
-
-      # JAVA 21 (used by jdtls / Neovim)
-      set -l java21_candidates \
-        $JAVA21_HOME \
-        $JDK21_HOME \
-        /usr/lib/jvm/java-21-openjdk-amd64 \
-        /usr/lib/jvm/java-1.21.0-openjdk-amd64 \
-        /usr/lib/jvm/default-java \
-        $HOME/.sdkman/candidates/java/current
-
-      for java_home in $java21_candidates
-        if test -n "$java_home"; and test -x "$java_home/bin/java"
-          if "$java_home/bin/java" -version 2>&1 | string match -qr 'version "21'
-            set -gx JAVA21_HOME "$java_home"
-            break
-          end
-        end
-      end
-      if set -q JAVA21_HOME
-        set -gx JAVA_HOME "$JAVA21_HOME"
-      end
-    '';
+     '';
     shellAbbrs = {
       g = "git"; ga = "git add"; gaa = "git add --all"; gap = "git add --patch";
       gb = "git branch"; gba = "git branch -a";
@@ -71,7 +53,8 @@
       ".." = "cd .."; "..." = "cd ../.."; "...." = "cd ../../..";
       ls = "lsd"; ll = "lsd -l"; la = "lsd -la"; lt = "lsd --tree";
       cat = "bat --style=plain"; grep = "rg"; find = "fd";
-      v = "nvim"; vim = "nvim";
+      v = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; nvim";
+      vim = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; nvim";
       d = "docker"; dc = "docker-compose"; dps = "docker ps"; dimg = "docker images";
       dcu = "docker-compose up -d"; dcd = "docker-compose down";
       dcl = "docker-compose logs -f"; dce = "docker-compose exec";
@@ -89,7 +72,7 @@
   programs.git = {
     enable = true;
     userName = "Lucas Morais";
-    userEmail = "your.email@example.com";
+    userEmail = "lucascdemorais@gmail.com";
     aliases = { co = "checkout"; br = "branch"; ci = "commit"; st = "status"; };
     extraConfig = {
       init.defaultBranch = "main";

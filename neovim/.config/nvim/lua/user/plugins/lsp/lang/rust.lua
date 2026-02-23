@@ -53,17 +53,22 @@ return {
       if ok then
         -- rust tools configuration for debugging support
         local codelldb = mason_registry.get_package("codelldb")
-        local extension_path = codelldb:get_install_path() .. "/extension/"
-        local codelldb_path = extension_path .. "adapter/codelldb"
-        local liblldb_path = ""
-        if vim.uv.os_uname().sysname:find("Windows") then
-          liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
-        elseif vim.fn.has("mac") == 1 then
-          liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
-        else
-          liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+        if codelldb and codelldb:is_installed() then
+          local codelldb_root = require("user.util").mason_package_path("codelldb")
+          if codelldb_root then
+            local extension_path = codelldb_root .. "/extension/"
+            local codelldb_path = extension_path .. "adapter/codelldb"
+            local liblldb_path = ""
+            if vim.uv.os_uname().sysname:find("Windows") then
+              liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
+            elseif vim.fn.has("mac") == 1 then
+              liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
+            else
+              liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+            end
+            adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+          end
         end
-        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
       end
       return {
         dap = {

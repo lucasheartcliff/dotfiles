@@ -49,6 +49,31 @@ function M.opts(name)
   return Plugin.values(plugin, "opts", false)
 end
 
+---@param package_name string
+---@return string?
+function M.mason_package_path(package_name)
+  local has_registry, registry = pcall(require, "mason-registry")
+  if not has_registry then
+    return nil
+  end
+
+  local ok_pkg, pkg = pcall(registry.get_package, package_name)
+  if not ok_pkg or not pkg then
+    return nil
+  end
+
+  if type(pkg.get_install_path) == "function" then
+    return pkg:get_install_path()
+  end
+
+  local has_install_location, InstallLocation = pcall(require, "mason-core.installer.InstallLocation")
+  if has_install_location and InstallLocation and type(InstallLocation.global) == "function" then
+    return InstallLocation.global():package(package_name)
+  end
+
+  return vim.fn.stdpath("data") .. "/mason/packages/" .. package_name
+end
+
 M.get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
 
 -- returns the root directory based on:
