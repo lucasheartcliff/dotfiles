@@ -117,6 +117,37 @@ return { -- Better `vim.notify()`
     opts = function()
       local icons = require("user.config").icons
       local Util = require("user.util")
+      local wakatime = {
+        value = "",
+        in_flight = false,
+        last_updated_ms = 0,
+      }
+      local wakatime_refresh_ms = 2 * 60 * 1000
+
+      local function refresh_wakatime()
+        if wakatime.in_flight or vim.fn.exists("*WakaTimeToday") == 0 then
+          return
+        end
+
+        wakatime.in_flight = true
+        local ok = pcall(vim.fn.WakaTimeToday, function(output)
+          wakatime.value = type(output) == "string" and vim.trim(output) or ""
+          wakatime.last_updated_ms = vim.uv.now()
+          wakatime.in_flight = false
+
+          vim.schedule(function()
+            if package.loaded["lualine"] then
+              require("lualine").refresh({
+                place = { "statusline" },
+              })
+            end
+          end)
+        end)
+
+        if not ok then
+          wakatime.in_flight = false
+        end
+      end
 
       return {
         options = {
@@ -141,10 +172,14 @@ return { -- Better `vim.notify()`
             },
             {
               function()
-                return icons.kinds.Discord
+                local ok, presence = pcall(require, "presence")
+                local connected = ok and presence.is_connected
+                return string.format("%s %s", icons.kinds.Discord, connected and "●" or "○")
               end,
-              cond = function()
-                return require("presence").is_connected
+              color = function()
+                local ok, presence = pcall(require, "presence")
+                local connected = ok and presence.is_connected
+                return connected and Util.fg("String") or Util.fg("Comment")
               end,
             },
             -- {
@@ -198,6 +233,23 @@ return { -- Better `vim.notify()`
               require("lazy.status").updates,
               cond = require("lazy.status").has_updates,
               color = Util.fg("Special"),
+            },
+            {
+              function()
+                if vim.uv.now() - wakatime.last_updated_ms > wakatime_refresh_ms then
+                  refresh_wakatime()
+                end
+
+                if wakatime.value == "" then
+                  return ""
+                end
+
+                return "󱑆 " .. wakatime.value
+              end,
+              cond = function()
+                return vim.fn.exists("*WakaTimeToday") == 1
+              end,
+              color = Util.fg("Identifier"),
             },
             {
               "diff",
