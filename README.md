@@ -206,6 +206,15 @@ The Neovim config has been updated for compatibility with Neovim 0.10+:
 - ✅ Dynamic config paths (no hardcoded `~/.config`)
 - ✅ Cleaned up commented code
 
+### Kotlin/Android CI Check
+
+Run the Neovim Kotlin/Android automated checks locally:
+
+```bash
+chmod +x neovim/.config/nvim/tests/ci/kotlin_android_ci.sh
+neovim/.config/nvim/tests/ci/kotlin_android_ci.sh
+```
+
 ## 🔄 Updating
 
 ### Update Home Manager Configuration
