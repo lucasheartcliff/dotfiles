@@ -29,7 +29,8 @@ fi
 
 # Detect OS
 if [ -f /etc/os-release ]; then
-    . /etc/os-release
+    # shellcheck source=/etc/os-release
+    source /etc/os-release
     OS=$ID
 else
     log_error "Cannot detect OS"
@@ -75,11 +76,12 @@ install_kitty_system() {
 # Install Nix if not already installed
 if ! command -v nix &> /dev/null; then
     log_info "Installing Nix package manager..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate systems.com/nix | sh -s -- install
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
     
     # Source Nix
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+        # shellcheck source=/dev/null
+        source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     fi
     
     log_info "Nix installed successfully"
@@ -137,19 +139,20 @@ home-manager switch
 
 # Check if Fish is installed
 if command -v fish &> /dev/null; then
+    fish_path="$(command -v fish)"
     log_info "Fish shell detected"
     
     # Check if Fish is already the default shell
-    if [ "$SHELL" != "$(which fish)" ]; then
+    if [ "$SHELL" != "$fish_path" ]; then
         log_info "Setting Fish as default shell..."
         
         # Add Fish to /etc/shells if not already there
-        if ! grep -q "$(which fish)" /etc/shells; then
-            echo "$(which fish)" | sudo tee -a /etc/shells
+        if ! grep -q "$fish_path" /etc/shells; then
+            echo "$fish_path" | sudo tee -a /etc/shells
         fi
         
         # Change default shell
-        chsh -s "$(which fish)"
+        chsh -s "$fish_path"
         log_info "Fish set as default shell. Please log out and log back in for changes to take effect."
     else
         log_info "Fish is already the default shell"

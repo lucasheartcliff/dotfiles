@@ -55,6 +55,7 @@
       cat = "bat --style=plain"; grep = "rg"; find = "fd";
       v = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
       vim = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
+      codex22 = "set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; codex";
       d = "docker"; dc = "docker-compose"; dps = "docker ps"; dimg = "docker images";
       dcu = "docker-compose up -d"; dcd = "docker-compose down";
       dcl = "docker-compose logs -f"; dce = "docker-compose exec";

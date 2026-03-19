@@ -44,7 +44,7 @@ run_nvim_step() {
     return ${status}
   fi
 
-  if rg -q "(Error detected while processing|E[0-9]{4}:)" "${log_file}"; then
+  if rg -q '(Error detected while processing|E[0-9]{4}:|Failed to (setup handlers|run `config`|load))' "${log_file}"; then
     echo "Neovim reported errors in step: ${name}" >&2
     rm -f "${log_file}"
     return 1

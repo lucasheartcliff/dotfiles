@@ -214,7 +214,7 @@ return {
   -- formatters
   {
     "nvimtools/none-ls.nvim",
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     dependencies = { "mason.nvim" },
     opts = function()
       local nls = require("none-ls")

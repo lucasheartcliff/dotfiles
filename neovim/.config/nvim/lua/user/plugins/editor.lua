@@ -78,7 +78,7 @@ return {
   -- hunks in a commit.
   {
     "lewis6991/gitsigns.nvim",
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
       signs = {
         add = { text = "▎" },
@@ -117,7 +117,7 @@ return {
   -- instances.
   {
     "RRethy/vim-illuminate",
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
       delay = 200,
       large_file_cutoff = 2000,
@@ -226,7 +226,7 @@ return {
   {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     config = true,
     -- stylua: ignore
     keys = {

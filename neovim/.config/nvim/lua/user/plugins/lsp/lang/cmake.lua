@@ -45,6 +45,6 @@ return {
   {
     "Civitasv/cmake-tools.nvim",
     opts = {},
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
   },
 }

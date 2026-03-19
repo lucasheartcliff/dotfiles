@@ -49,6 +49,20 @@ mkdir -p "$HOME/.local/bin"
 
 # Define folders to ignore
 declare -a ignored_folders=("assets" "tools" "utils" "font-unicode" "home-manager")
+declare -a failed_packages=()
+
+should_ignore_folder() {
+    local folder="$1"
+    local ignored
+
+    for ignored in "${ignored_folders[@]}"; do
+        if [ "$ignored" = "$folder" ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
 
 # Stow packages
 log_info "Stowing dotfiles..."
@@ -56,13 +70,13 @@ for package in */; do
     package_name="${package%/}"
     
     # Check if package should be ignored
-    if [[ " ${ignored_folders[@]} " =~ " $package_name " ]]; then
+    if should_ignore_folder "$package_name"; then
         log_info "Skipping: $package_name"
         continue
     fi
     
     # Check if package has any files
-    if [ ! "$(ls -A "$package" 2>/dev/null)" ]; then
+    if [ -z "$(find "$package" -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]; then
         log_warn "Empty package: $package_name"
         continue
     fi
@@ -73,13 +87,19 @@ for package in */; do
     stow -D "$package_name" 2>/dev/null || true
     
     # Then stow the package
-    if stow "$package_name" 2>&1 | tee /tmp/stow-$package_name.log; then
+    if stow "$package_name" 2>&1 | tee "/tmp/stow-$package_name.log"; then
         log_info "✓ Successfully stowed: $package_name"
     else
         log_error "✗ Failed to stow: $package_name"
         log_error "Check /tmp/stow-$package_name.log for details"
+        failed_packages+=("$package_name")
     fi
 done
+
+if [ "${#failed_packages[@]}" -gt 0 ]; then
+    log_error "Stow failed for: ${failed_packages[*]}"
+    exit 1
+fi
 
 log_info ""
 log_info "========================================="
@@ -88,4 +108,3 @@ log_info "========================================="
 log_info ""
 log_info "Backed up configs are in: $BACKUP_DIR"
 log_info ""
-

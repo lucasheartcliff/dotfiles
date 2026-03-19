@@ -2,7 +2,9 @@
 local M = {}
 
 M.lazy_version = ">=10.8.0"
-M.use_lazy_file = true
+-- The custom LazyFile shim depends on lazy.nvim internals that have changed.
+-- Fall back to the real file events for predictable startup and CI behavior.
+M.use_lazy_file = false
 M.lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
 ---@class LazyVimOptions
@@ -313,6 +315,7 @@ function M.init()
                 events[#events + 1] = event
               end
             end
+            plugin.event = events
           end
         end
       end

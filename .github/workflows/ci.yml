@@ -1,0 +1,147 @@
+name: ci
+
+on:
+  push:
+    paths-ignore:
+      - "AGENTS.md"
+      - "README.md"
+      - "README.md.old"
+      - "assets/**"
+      - "font-unicode/**"
+  pull_request:
+    paths-ignore:
+      - "AGENTS.md"
+      - "README.md"
+      - "README.md.old"
+      - "assets/**"
+      - "font-unicode/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  shell-and-stow:
+    name: Shell and Stow
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shell tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck stow
+
+      - name: Bash syntax check
+        run: |
+          bash -n bootstrap.sh
+          bash -n fedora.sh
+          bash -n stow-config.sh
+          bash -n tools_install.sh
+          bash -n ubuntu.sh
+
+      - name: ShellCheck
+        run: |
+          shellcheck -e SC1091 bootstrap.sh
+          shellcheck fedora.sh stow-config.sh tools_install.sh ubuntu.sh
+
+      - name: Stow smoke test
+        env:
+          TEST_HOME: ${{ runner.temp }}/dotfiles-home
+        run: |
+          rm -rf "$TEST_HOME"
+          mkdir -p "$TEST_HOME/.dotfiles"
+          cp -a "$GITHUB_WORKSPACE/." "$TEST_HOME/.dotfiles"
+
+          HOME="$TEST_HOME" "$TEST_HOME/.dotfiles/stow-config.sh"
+
+          test -L "$TEST_HOME/.config/kitty"
+          test -L "$TEST_HOME/.config/nvim"
+          test -L "$TEST_HOME/.config/terminator"
+          test -L "$TEST_HOME/.tmux.conf"
+
+      - name: Upload stow logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stow-logs
+          path: /tmp/stow-*.log
+          if-no-files-found: ignore
+
+  home-manager:
+    name: Home Manager Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Install Home Manager
+        run: |
+          nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+          nix-channel --update
+          nix-shell '<home-manager>' -A install
+          echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+
+      - name: Build Home Manager configuration
+        run: |
+          mkdir -p "$HOME/.config/home-manager"
+          ln -sf "$GITHUB_WORKSPACE/home-manager/.config/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
+          home-manager build
+
+  neovim:
+    name: Neovim Kotlin/Android Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            neovim \
+            git \
+            curl \
+            unzip \
+            ripgrep \
+            fd-find \
+            default-jre-headless \
+            python3 \
+            python3-pip
+
+      - name: Show tool versions
+        run: |
+          nvim --version | head -n 3
+          java -version
+          python3 --version
+
+      - name: Run Neovim Kotlin/Android CI checks
+        env:
+          NVIM_CI_WORKDIR: ${{ runner.temp }}/nvim-ci-dotfiles
+        run: |
+          chmod +x neovim/.config/nvim/tests/ci/kotlin_android_ci.sh
+          neovim/.config/nvim/tests/ci/kotlin_android_ci.sh
