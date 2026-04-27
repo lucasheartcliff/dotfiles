@@ -1,19 +1,21 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This repository is a dotfiles setup centered on Nix Home Manager and GNU Stow. Core entry points live at the root: `bootstrap.sh` installs Nix and Home Manager, `ubuntu.sh` and `fedora.sh` prepare OS packages, and `stow-config.sh` links package directories into `$HOME`.
+This repository is a Ubuntu-focused dotfiles setup centered on Nix Home Manager and GNU Stow. Core entry points live at the root: `ubuntu.sh` prepares OS packages, `bootstrap.sh` installs Nix and Home Manager, and `stow-config.sh` links package directories into `$HOME`.
 
-Main configuration lives in `home-manager/.config/home-manager/home.nix`. App-specific packages are organized by target path, for example `neovim/.config/nvim`, `kitty/.config/kitty`, `terminator/.config/terminator`, `tmux/.tmux.conf`, and `zsh/.config/zsh`. Tests and CI fixtures are under `neovim/.config/nvim/tests`. Archived manual installers remain in `tools/archived/`. Fonts and screenshots are in `font-unicode/` and `assets/`.
+Main configuration starts at `home-manager/.config/home-manager/home.nix`, with focused modules in `home-manager/.config/home-manager/modules/`. App-specific packages are organized by target path, for example `neovim/.config/nvim`, `kitty/.config/kitty`, `terminator/.config/terminator`, and `tmux/.tmux.conf`. Tests and CI fixtures are under `neovim/.config/nvim/tests`. Utility scripts live in `scripts/` and `utils/`; screenshots and other static assets live in `assets/`.
 
 ## Build, Test, and Development Commands
 Use the repository root for all commands.
 
-- `./ubuntu.sh` or `./fedora.sh`: install OS prerequisites, then delegate to `bootstrap.sh`.
-- `./bootstrap.sh`: install Nix/Home Manager, link `home.nix`, run `home-manager switch`, and then run Stow.
+- `./ubuntu.sh`: install Ubuntu prerequisites, then delegate to `bootstrap.sh`.
+- `./bootstrap.sh`: install Nix/Home Manager, link `home.nix` and modules, run `home-manager switch`, and then run Stow.
 - `./stow-config.sh`: restow package directories after editing dotfiles.
+- `./scripts/install-ai-clis.sh`: optionally install Codex and Claude Code with npm.
 - `home-manager switch --dry-run`: preview Home Manager changes safely.
 - `home-manager build`: build the generation without activating it.
 - `home-manager switch`: apply updated Nix-managed configuration.
+- `bash -n bootstrap.sh stow-config.sh ubuntu.sh uninstall_nix.sh scripts/install-ai-clis.sh`: check shell syntax.
 - `neovim/.config/nvim/tests/ci/kotlin_android_ci.sh`: run the Neovim Kotlin/Android checks locally.
 
 ## Coding Style & Naming Conventions
@@ -25,4 +27,4 @@ Automated coverage is concentrated in the Neovim config. Add Lua specs under `ne
 ## Commit & Pull Request Guidelines
 Recent history favors short, imperative subjects, sometimes with conventional prefixes like `feat:` or `refactor:`. Keep commit titles focused, for example `feat: add fish alias for lazygit` or `fix neovim jdtls setup`.
 
-PRs should describe the affected area (`home-manager`, `neovim`, shell bootstrap, etc.), list manual verification steps, and include screenshots only for visible terminal or UI changes. Call out OS-specific impact when modifying `ubuntu.sh`, `fedora.sh`, or bootstrap logic.
+PRs should describe the affected area (`home-manager`, `neovim`, shell bootstrap, etc.), list manual verification steps, and include screenshots only for visible terminal or UI changes. Call out Ubuntu-specific impact when modifying `ubuntu.sh` or bootstrap logic.

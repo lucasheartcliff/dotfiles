@@ -48,7 +48,7 @@ fi
 mkdir -p "$HOME/.local/bin"
 
 # Define folders to ignore
-declare -a ignored_folders=("assets" "tools" "utils" "font-unicode" "home-manager")
+declare -a ignored_folders=("assets" "home-manager" "scripts" "utils")
 declare -a failed_packages=()
 
 should_ignore_folder() {

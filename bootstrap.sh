@@ -39,6 +39,12 @@ fi
 
 log_info "Detected OS: $OS"
 
+if [[ "$OS" != "ubuntu" && "$OS" != "debian" && "$OS" != "pop" && "$OS" != "linuxmint" ]]; then
+    log_error "This bootstrap is supported only on Ubuntu/Debian-like systems."
+    log_error "Detected unsupported OS: $OS"
+    exit 1
+fi
+
 install_kitty_system() {
     if command -v kitty &> /dev/null; then
         log_info "Kitty already installed"
@@ -46,31 +52,8 @@ install_kitty_system() {
     fi
 
     log_info "Installing Kitty (system package)..."
-    case "$OS" in
-        ubuntu|debian|pop|linuxmint)
-            sudo apt update
-            sudo apt install -y kitty
-            ;;
-        fedora|rhel|centos)
-            sudo dnf install -y kitty
-            ;;
-        arch|manjaro|endeavouros)
-            sudo pacman -Sy --noconfirm kitty
-            ;;
-        *)
-            if [[ "${ID_LIKE:-}" == *debian* ]]; then
-                sudo apt update
-                sudo apt install -y kitty
-            elif [[ "${ID_LIKE:-}" == *rhel* ]] || [[ "${ID_LIKE:-}" == *fedora* ]]; then
-                sudo dnf install -y kitty
-            elif [[ "${ID_LIKE:-}" == *arch* ]]; then
-                sudo pacman -Sy --noconfirm kitty
-            else
-                log_warn "Unsupported OS for Kitty install: $OS"
-                log_warn "Install Kitty manually if needed"
-            fi
-            ;;
-    esac
+    sudo apt update
+    sudo apt install -y kitty
 }
 
 # Install Nix if not already installed
@@ -133,6 +116,14 @@ else
     exit 1
 fi
 
+if [ -d "$DOTFILES_DIR/home-manager/.config/home-manager/modules" ]; then
+    ln -sfn "$DOTFILES_DIR/home-manager/.config/home-manager/modules" "$HOME/.config/home-manager/modules"
+    log_info "Linked home-manager modules"
+else
+    log_error "Home Manager modules not found in $DOTFILES_DIR/home-manager/.config/home-manager/modules"
+    exit 1
+fi
+
 # Apply Home Manager configuration
 log_info "Applying Home Manager configuration (this may take a while)..."
 home-manager switch
@@ -179,6 +170,7 @@ log_info "Next steps:"
 log_info "1. Log out and log back in to use Fish shell"
 log_info "2. Update git user email in ~/.config/home-manager/home.nix"
 log_info "3. Run 'home-manager switch' to apply any changes"
+log_info "4. Optional: run './scripts/install-ai-clis.sh' to install Codex and Claude Code"
 log_info ""
 log_info "Your old config was backed up to: $BACKUP_DIR"
 log_info ""

@@ -2,3 +2,24 @@
 .idea
 swap-pane
 
+# Build outputs and generated links
+result
+result-*
+
+# Logs and local runtime artifacts
+*.log
+.nvimlog
+
+# Backups
+*.backup
+*.bak
+*.old
+*.orig
+*~
+
+# Tool state
+.direnv/
+.envrc.local
+
+# Temporary stow logs
+stow-*.log

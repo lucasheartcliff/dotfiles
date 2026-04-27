@@ -5,16 +5,12 @@ on:
     paths-ignore:
       - "AGENTS.md"
       - "README.md"
-      - "README.md.old"
       - "assets/**"
-      - "font-unicode/**"
   pull_request:
     paths-ignore:
       - "AGENTS.md"
       - "README.md"
-      - "README.md.old"
       - "assets/**"
-      - "font-unicode/**"
   workflow_dispatch:
 
 concurrency:
@@ -46,15 +42,15 @@ jobs:
       - name: Bash syntax check
         run: |
           bash -n bootstrap.sh
-          bash -n fedora.sh
           bash -n stow-config.sh
-          bash -n tools_install.sh
           bash -n ubuntu.sh
+          bash -n uninstall_nix.sh
+          bash -n scripts/install-ai-clis.sh
 
       - name: ShellCheck
         run: |
           shellcheck -e SC1091 bootstrap.sh
-          shellcheck fedora.sh stow-config.sh tools_install.sh ubuntu.sh
+          shellcheck stow-config.sh ubuntu.sh uninstall_nix.sh scripts/install-ai-clis.sh
 
       - name: Stow smoke test
         env:
@@ -108,6 +104,7 @@ jobs:
         run: |
           mkdir -p "$HOME/.config/home-manager"
           ln -sf "$GITHUB_WORKSPACE/home-manager/.config/home-manager/home.nix" "$HOME/.config/home-manager/home.nix"
+          ln -sfn "$GITHUB_WORKSPACE/home-manager/.config/home-manager/modules" "$HOME/.config/home-manager/modules"
           home-manager build
 
   neovim:
