@@ -1,5 +1,25 @@
 # Global Development Standards
 
+## Agile Principles
+- Highest priority is satisfying the customer through early and continuous delivery of valuable software
+- Welcome changing requirements, even late in development — harness change for the customer's competitive advantage
+- Deliver working software frequently (weeks rather than months), preferring the shorter timescale
+- Business people and developers must work together daily throughout the project
+- Build projects around motivated individuals — give them the environment and support they need, and trust them to get the job done
+- Face-to-face conversation is the most efficient method of conveying information
+- Working software is the primary measure of progress
+- Promote sustainable development — sponsors, developers, and users should maintain a constant pace indefinitely
+- Continuous attention to technical excellence and good design enhances agility
+- Simplicity — maximizing the amount of work not done — is essential
+- The best architectures, requirements, and designs emerge from self-organizing teams
+- At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly
+
+### Core Values
+- **Individuals and interactions** over processes and tools
+- **Working software** over comprehensive documentation
+- **Customer collaboration** over contract negotiation
+- **Responding to change** over following a plan
+
 ## Behavior
 - Read relevant files before answering questions about code — never speculate about unread files
 - For non-trivial tasks (3+ steps or architectural decisions): propose a plan and wait for approval
