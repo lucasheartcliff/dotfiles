@@ -24,6 +24,15 @@
 - Add `data-testid` attributes to every interactive and structurally significant component
 - `data-testid` naming convention: `kebab-case`, descriptive, scoped to the component (e.g. `login-form-submit-btn`, `user-profile-avatar`)
 - Never remove or rename a `data-testid` without updating the corresponding E2E test
+- Use [Playwright](https://playwright.dev/) as the default E2E framework
+- Enable video recording for every E2E test run via Playwright config:
+  ```ts
+  use: {
+    video: 'on',
+  }
+  ```
+- On test success, attach the recorded video to the corresponding Linear task as proof of the passing flow
+- Store videos as CI artifacts (`actions/upload-artifact`) for traceability — never commit them to the repository
 
 ### APIs
 - Write integration tests for every endpoint covering: success response, validation errors, auth failures, and edge cases
