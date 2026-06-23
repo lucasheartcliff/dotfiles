@@ -155,6 +155,106 @@
 - Never hardcode secrets or credentials inside `setup.sh`
 - Add `setup.sh` execution to the README as the recommended first step
 
+## CI Setup
+- Every project must have a CI pipeline configured during bootstrap — CI is not an afterthought
+- CI must run on every push and pull request to the default branch
+- Use GitHub Actions as the default CI platform unless the project has a specific reason to use something else
+
+### Pipeline structure
+- Every CI pipeline must include, at minimum, these stages in order:
+  1. **Lint** — static analysis, shellcheck, formatting checks
+  2. **Test** — unit tests, integration tests (with real/containerized dependencies)
+  3. **Security** — dependency vulnerability scanning (see Dependency Scanning section)
+  4. **Build** — compile/bundle to verify the artifact is producible
+- Each stage must fail fast — do not continue to later stages if an earlier one fails
+
+### Runtime versions in CI
+- CI must install runtimes from `.tool-versions` via `asdf install` — never hardcode versions in the workflow file
+- Use the [`asdf-vm/actions`](https://github.com/asdf-vm/actions) GitHub Action or equivalent to bootstrap asdf in CI:
+  ```yaml
+  - uses: asdf-vm/actions/install@v3
+  ```
+- If a Dockerfile is involved, it must also derive its base image version from `.tool-versions` — never pin independently
+
+### CI workflow template (GitHub Actions)
+  ```yaml
+  name: ci
+
+  on:
+    push:
+      branches: [main, master]
+    pull_request:
+      branches: [main, master]
+    workflow_dispatch:
+
+  concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+  permissions:
+    contents: read
+
+  jobs:
+    lint:
+      name: Lint
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      steps:
+        - uses: actions/checkout@v4
+        - uses: asdf-vm/actions/install@v3
+        - name: Run linters
+          run: npm run lint  # adapt to ecosystem
+
+    test:
+      name: Test
+      runs-on: ubuntu-latest
+      timeout-minutes: 20
+      needs: lint
+      steps:
+        - uses: actions/checkout@v4
+        - uses: asdf-vm/actions/install@v3
+        - name: Install dependencies
+          run: npm ci
+        - name: Run tests
+          run: npm test
+
+    security:
+      name: Security Scan
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      needs: lint
+      steps:
+        - uses: actions/checkout@v4
+        - uses: asdf-vm/actions/install@v3
+        - name: Install dependencies
+          run: npm ci
+        - name: Dependency audit
+          run: npm audit --audit-level=high
+
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+      timeout-minutes: 15
+      needs: [test, security]
+      steps:
+        - uses: actions/checkout@v4
+        - uses: asdf-vm/actions/install@v3
+        - name: Install dependencies
+          run: npm ci
+        - name: Build
+          run: npm run build
+  ```
+- Adapt the template to the project's ecosystem — the stage order and principles stay the same
+- Never allow CI to pass with test failures, linter warnings treated as errors, or unresolved high/critical vulnerabilities
+
+### CI best practices
+- Pin action versions to a major tag (e.g. `actions/checkout@v4`), not `@main` or `@latest`
+- Set `timeout-minutes` on every job to prevent runaway builds
+- Use `concurrency` with `cancel-in-progress: true` to avoid wasting resources on superseded commits
+- Cache dependencies (node_modules, .m2, .gradle) to speed up builds — but never cache build outputs that should be reproduced from source
+- Store test reports and coverage artifacts using `actions/upload-artifact` for post-mortem debugging
+- CI secrets (API keys, deploy tokens) must be stored in GitHub Actions secrets — never in the workflow file
+
 ## Runtime Versions (asdf)
 - Every project must have a `.tool-versions` file at the repository root committing the exact runtime versions used
 - `.tool-versions` must be committed to the repository and kept in sync with CI — never left as a local-only file
