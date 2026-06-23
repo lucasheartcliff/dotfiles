@@ -14,6 +14,10 @@
 - Prefer composition over inheritance and dependency injection for testability
 - Apply SOLID principles; avoid premature abstraction
 - Never add speculative features or code not explicitly requested
+- Keep functions small and focused — single responsibility at the function level
+- DRY — but duplication is cheaper than the wrong abstraction; extract only after 3+ occurrences
+- YAGNI — don't build for hypothetical future requirements
+- Write self-documenting code; rename before adding a comment
 
 ### UI
 - Write E2E tests for every user-facing flow (happy path + key failure paths)
@@ -48,6 +52,8 @@
 - One logical change per commit; no WIP commits to main/master
 - Never commit directly to main/master without explicit instruction
 - Never push to remote branches without being asked
+- Keep feature branches short-lived (merge within days, not weeks) to reduce merge conflicts
+- Delete remote branches after merging
 
 ### Worktrees
 - Every non-trivial task must be developed in a dedicated git worktree — never implement directly on the main working tree
@@ -66,10 +72,19 @@
 - One worktree per Linear issue; never share a worktree across unrelated tasks
 - Always remove the worktree after the branch is merged — do not leave stale worktrees
 
+## Code Review
+- Every PR must be reviewed by at least one person before merging
+- Review for correctness, security, test coverage, and readability — not just style
+- Keep PRs small (< 400 lines changed) to enable meaningful review
+- Approve only when you would confidently maintain the code yourself
+
 ## Architecture
 - Favor explicit over implicit; make dependencies visible
 - Prefer reversible decisions; call out irreversible ones explicitly
 - When modifying shared infrastructure, note downstream impact
+- Separate concerns — clear boundaries between layers (transport, service, domain, persistence)
+- Design for failure — use retries with backoff, circuit breakers, and graceful degradation for external dependencies
+- Apply the principle of least privilege in service-to-service communication and data access
 
 ## Documentation
 - Documentation is part of the definition of done — a task is not complete without it
@@ -246,6 +261,8 @@
   ```
 - Adapt the template to the project's ecosystem — the stage order and principles stay the same
 - Never allow CI to pass with test failures, linter warnings treated as errors, or unresolved high/critical vulnerabilities
+- Deploy frequently in small increments — smaller releases are safer and easier to debug
+- Use feature flags for risky rollouts to decouple deployment from release
 
 ### CI best practices
 - Pin action versions to a major tag (e.g. `actions/checkout@v4`), not `@main` or `@latest`
@@ -254,6 +271,14 @@
 - Cache dependencies (node_modules, .m2, .gradle) to speed up builds — but never cache build outputs that should be reproduced from source
 - Store test reports and coverage artifacts using `actions/upload-artifact` for post-mortem debugging
 - CI secrets (API keys, deploy tokens) must be stored in GitHub Actions secrets — never in the workflow file
+
+## Monitoring & Observability
+- Every service must emit structured logs (JSON), metrics, and traces
+- Never log sensitive data — mask PII, tokens, and credentials in log output
+- Set up alerts for error rate spikes, latency degradation, and resource exhaustion
+- Every deployment must have a rollback plan — know how to revert before you ship
+- Use distributed tracing to follow requests across service boundaries
+- Monitor dependency health (databases, queues, third-party APIs) — not just your own service
 
 ## Runtime Versions (asdf)
 - Every project must have a `.tool-versions` file at the repository root committing the exact runtime versions used
