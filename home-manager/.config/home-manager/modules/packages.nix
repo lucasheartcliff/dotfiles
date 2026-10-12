@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     act
+    asdf-vm
     bat
     brave
     cmatrix
@@ -22,7 +23,7 @@
     kubernetes-helm
     lazygit
     lsd
-    neofetch
+    fastfetch
     neovim
     nerd-fonts.fira-code
     nodejs

@@ -11,8 +11,8 @@
     ./modules/lazygit.nix
   ];
 
-  home.username = "lucasmorais";
-  home.homeDirectory = "/home/lucasmorais";
+  home.username = "lucasheartcliff";
+  home.homeDirectory = "/home/lucasheartcliff";
   home.stateVersion = "25.05";
 
   nixpkgs.config.allowUnfree = true;
@@ -24,6 +24,10 @@
     BROWSER = "brave";
     NPM_CONFIG_PREFIX = "$HOME/.local/share/npm";
   };
+
+  home.sessionPath = [
+    "$HOME/.npm-global/bin"
+  ];
 
   programs.home-manager.enable = true;
 }
