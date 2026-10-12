@@ -1,9 +1,36 @@
 { pkgs, ... }:
 
+let
+  # fish 4.8.x in the current nixpkgs-weekly snapshot ships without
+  # share/fish/tools/create_manpage_completions.py, which home-manager's
+  # generateCompletions requires — every `home-manager switch` fails as a
+  # result. Pin fish to 4.7.1 (the last release that still bundles the
+  # script) until upstream nixpkgs restores it.
+  fishPin = import (builtins.fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/4a29d733e8a7d5b824c3d8c958a946a9867b3eb2.tar.gz";
+    sha256 = "1xgk8ph3k64719xmh1pwsq04c60rjirrvlk0yy39zkganh4l1qkz";
+  }) { inherit (pkgs) system; config = { }; };
+in
 {
   programs.fish = {
     enable = true;
+    package = fishPin.fish;
     interactiveShellInit = ''
+      # SSH agent: reuse existing or start a new one
+      if not set -q SSH_AUTH_SOCK
+        set -l agent_file "$HOME/.ssh/agent.env"
+        if test -f "$agent_file"
+          source "$agent_file" > /dev/null
+        end
+        if not ssh-add -l > /dev/null 2>&1
+          eval (ssh-agent -c) > /dev/null
+          set -l agent_export "set -gx SSH_AUTH_SOCK $SSH_AUTH_SOCK;\nset -gx SSH_AGENT_PID $SSH_AGENT_PID;"
+          echo -e $agent_export > "$agent_file"
+          chmod 600 "$agent_file"
+          ssh-add ~/.ssh/github 2>/dev/null
+        end
+      end
+
       set fish_greeting
       set -gx EDITOR nvim
       set -gx VISUAL nvim
@@ -13,12 +40,10 @@
       set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
       set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 
-      if test -f $HOME/asdf/asdf.fish
-        set -gx ASDF_DATA_DIR $HOME/asdf
-        source $HOME/asdf/asdf.fish
-        if test -f $HOME/asdf/plugins/java/set-java-home.fish
-          source $HOME/asdf/plugins/java/set-java-home.fish
-        end
+      set -gx ASDF_DATA_DIR $HOME/asdf
+      fish_add_path $HOME/asdf/shims
+      if test -f $HOME/asdf/plugins/java/set-java-home.fish
+        source $HOME/asdf/plugins/java/set-java-home.fish
       end
     '';
     shellAbbrs = {
@@ -79,8 +104,8 @@
       grep = "rg";
       find = "fd";
 
-      v = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
-      vim = "set -lx JAVA_HOME (asdf where java graalvm-community-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
+      v = "set -lx JAVA_HOME (asdf where java openjdk-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
+      vim = "set -lx JAVA_HOME (asdf where java openjdk-21.0.2); set -lx PATH $JAVA_HOME/bin $PATH; set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; nvim";
       codex22 = "set -lx NODE22_HOME (asdf where nodejs 22.17.0); set -lx PATH $NODE22_HOME/bin $PATH; codex";
 
       d = "docker";
